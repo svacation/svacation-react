@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     index: { unique: true }
   },
   password: String,
-  wechart: String,
+  wechat: String,
   birthday: String
 });
 

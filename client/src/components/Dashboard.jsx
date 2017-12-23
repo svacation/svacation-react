@@ -7,8 +7,8 @@ const Dashboard = ({
 }) => (
   <Card className="container">
     <CardTitle
-      title="主页"
-      subtitle="服务内容只有登录用户才能看到"
+      title="用户主页"
+      subtitle="这里有您的个人信息和我们提供的服务"
     />
 
     {secretData && <CardText style={{ fontSize: '16px', color: 'green' }}>{secretData}

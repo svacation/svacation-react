@@ -18,7 +18,7 @@ class SignUpPage extends React.Component {
         phone:'',
         email: '',
         password: '',
-        wechart:'',
+        wechat:'',
         birthday:''
       }
     };
@@ -41,9 +41,9 @@ class SignUpPage extends React.Component {
     const phone = encodeURIComponent(this.state.user.phone);
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const wechart = encodeURIComponent(this.state.user.wechart);
+    const wechat = encodeURIComponent(this.state.user.wechat);
     const birthday = encodeURIComponent(this.state.user.birthday);
-    const formData = `name=${name}&email=${email}&password=${password}`;
+    const formData = `name=${name}&phone=${phone}&email=${email}&password=${password}&wechat=${wechat}&birthday=${birthday}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();

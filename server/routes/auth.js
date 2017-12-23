@@ -18,21 +18,21 @@ function validateSignupForm(payload) {
 
   if (!payload || typeof payload.email !== 'string' || !validator.isEmail(payload.email)) {
     isFormValid = false;
-    errors.email = 'Please provide a correct email address.';
+    errors.email = '请提供正确的email';
   }
 
-  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 8) {
+  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
     isFormValid = false;
-    errors.password = 'Password must have at least 8 characters.';
+    errors.password = '密码不能为空';
   }
 
   if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
     isFormValid = false;
-    errors.name = 'Please provide your name.';
+    errors.name = '名字不能为空';
   }
 
   if (!isFormValid) {
-    message = 'Check the form for errors.';
+    message = '注册信息有误';
   }
 
   return {
@@ -56,16 +56,16 @@ function validateLoginForm(payload) {
 
   if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
     isFormValid = false;
-    errors.email = 'Please provide your email address.';
+    errors.email = '请填入email';
   }
 
   if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
     isFormValid = false;
-    errors.password = 'Please provide your password.';
+    errors.password = '请填入密码';
   }
 
   if (!isFormValid) {
-    message = 'Check the form for errors.';
+    message = '登录信息有误';
   }
 
   return {
@@ -95,7 +95,7 @@ router.post('/signup', (req, res, next) => {
           success: false,
           message: 'Check the form for errors.',
           errors: {
-            email: 'This email is already taken.'
+            email: '这个email已经被使用'
           }
         });
       }
@@ -108,7 +108,7 @@ router.post('/signup', (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: 'You have successfully signed up! Now you should be able to log in.'
+      message: '账户创立成功，您可以登入了！'
     });
   })(req, res, next);
 });

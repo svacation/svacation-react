@@ -16,6 +16,7 @@ class DashboardPage extends React.Component {
     };
   }
 
+
   /**
    * This method will be executed after initial rendering.
    */
@@ -26,6 +27,11 @@ class DashboardPage extends React.Component {
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
+
+    const email = encodeURIComponent(Auth.getUser());
+    const formData = `email=${email}`;
+
+    xhr.send(formData);
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         this.setState({
@@ -33,7 +39,6 @@ class DashboardPage extends React.Component {
         });
       }
     });
-    xhr.send();
   }
 
   /**

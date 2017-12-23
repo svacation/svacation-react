@@ -16,7 +16,7 @@ module.exports = new PassportLocalStrategy({
     phone: req.body.phone.trim(),
     email: email.trim(),
     password: password.trim(),
-    wechart: req.body.wechart.trim(),
+    wechat: req.body.wechat.trim(),
     birthday: req.body.birthday.trim()
   };
 
