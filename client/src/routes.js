@@ -4,6 +4,7 @@ import DashboardPage from './containers/DashboardPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
 import medicinePage from './containers/medicinePage.jsx';
+import CheckMedicalRequest from './containers/CheckMedicalRequest.jsx';
 import Auth from './modules/Auth';
 
 
@@ -46,6 +47,11 @@ const routes = {
     {
       path: '/medicine',
       component: medicinePage
+    },
+
+    {
+      path: '/medicalrequest',
+      component: CheckMedicalRequest
     }
 
   ]

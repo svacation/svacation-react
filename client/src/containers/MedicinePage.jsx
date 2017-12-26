@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import Auth from '../modules/Auth';
 import MedicineForm from '../components/MedicineForm.jsx';
+import Auth from '../modules/Auth';
 
 
-class LoginPage extends React.Component {
+class MedicinePage extends React.Component {
 
   /**
    * Class constructor.
@@ -11,22 +11,13 @@ class LoginPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    const storedMessage = localStorage.getItem('successMessage');
-    let successMessage = '';
-
-    if (storedMessage) {
-      successMessage = storedMessage;
-      localStorage.removeItem('successMessage');
-    }
-
     // set the initial component state
     this.state = {
       errors: {},
-      successMessage,
-      user: {
-        email: '',
-        password: ''
-      }
+      email: '',
+      service: '',
+      additional: '',
+      time:''
     };
 
     this.processForm = this.processForm.bind(this);
@@ -43,14 +34,18 @@ class LoginPage extends React.Component {
     event.preventDefault();
 
     // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const formData = `email=${email}&password=${password}`;
+    const email = encodeURIComponent(Auth.getUser());
+    const service = encodeURIComponent(this.state.service);
+    const additional = encodeURIComponent(this.state.additional);
+    const time = encodeURIComponent(this.state.time);
+    const formData = `email=${email}&service=${service}&additional=${additional}&time=${time}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/login');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.open('post', '/api/medicine');
+     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
@@ -61,16 +56,11 @@ class LoginPage extends React.Component {
           errors: {}
         });
 
-        // save the token
-        Auth.authenticateUser(xhr.response.token);
-
-
-        // change the current URL to /
+        // make a redirect
         this.context.router.replace('/');
       } else {
         // failure
 
-        // change the component state
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
 
@@ -88,13 +78,21 @@ class LoginPage extends React.Component {
    * @param {object} event - the JavaScript event object
    */
   changeUser(event) {
-    const field = event.target.name;
-    const user = this.state.user;
-    user[field] = event.target.value;
-
-    this.setState({
-      user
-    });
+    if (event.target.type == "radio") {
+      this.setState({
+        service : event.target.value
+      });
+    } else {
+        if (event.target.name == 'additional') {
+          this.setState({
+            additional : event.target.value
+          });
+        } else if (event.target.name == 'time') {
+          this.setState({
+            time : event.target.value
+          });
+        }
+      }
   }
 
   /**
@@ -106,16 +104,16 @@ class LoginPage extends React.Component {
         onSubmit={this.processForm}
         onChange={this.changeUser}
         errors={this.state.errors}
-        successMessage={this.state.successMessage}
-        user={this.state.user}
+        additional={this.state.additional}
+        time={this.state.time}
       />
     );
   }
 
 }
 
-LoginPage.contextTypes = {
+MedicinePage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default LoginPage;
+export default MedicinePage;

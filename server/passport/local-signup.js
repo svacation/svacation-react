@@ -17,7 +17,9 @@ module.exports = new PassportLocalStrategy({
     email: email.trim(),
     password: password.trim(),
     wechat: req.body.wechat.trim(),
-    birthday: req.body.birthday.trim()
+    birthday: req.body.birthday.trim(),
+    address: '',
+    role: '1'
   };
 
   const newUser = new User(userData);

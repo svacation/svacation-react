@@ -11,7 +11,9 @@ const UserSchema = new mongoose.Schema({
   },
   password: String,
   wechat: String,
-  birthday: String
+  birthday: String,
+  address: String,
+  role : String
 });
 
 

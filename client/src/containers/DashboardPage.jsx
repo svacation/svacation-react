@@ -12,7 +12,13 @@ class DashboardPage extends React.Component {
     super(props);
 
     this.state = {
-      secretData: ''
+      user : {
+      name: '',
+      phone: '',
+      email: '',
+      wechat: '',
+      birthday: ''
+      }
     };
   }
 
@@ -22,7 +28,7 @@ class DashboardPage extends React.Component {
    */
   componentDidMount() {
     const xhr = new XMLHttpRequest();
-    xhr.open('get', '/api/dashboard');
+    xhr.open('post','/api/dashboard');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -35,7 +41,12 @@ class DashboardPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         this.setState({
-          secretData: xhr.response.message
+          name: xhr.response.name,
+          phone: xhr.response.phone,
+          email: xhr.response.email,
+          wechat: xhr.response.wechat,
+          birthday: xhr.response.birthday,
+          address: xhr.response.address
         });
       }
     });
@@ -45,7 +56,14 @@ class DashboardPage extends React.Component {
    * Render the component.
    */
   render() {
-    return (<Dashboard secretData={this.state.secretData} />);
+    return (<Dashboard 
+      name={this.state.name} 
+      phone={this.state.phone}
+      email={this.state.email}
+      wechat={this.state.wechat}
+      birthday={this.state.birthday}
+      address={this.state.address}
+      />);
   }
 
 }
