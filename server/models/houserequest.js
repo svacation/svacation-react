@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 
 // define the User model schema
 const HouseRequestSchema = new mongoose.Schema({
+  type:String,
   email: String,
   service : String,
   additional : String,

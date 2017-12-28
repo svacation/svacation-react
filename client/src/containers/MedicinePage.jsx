@@ -48,6 +48,7 @@ class MedicinePage extends React.Component {
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
+      console.log(xhr);
       if (xhr.status === 200) {
         // success
 
@@ -57,7 +58,7 @@ class MedicinePage extends React.Component {
         });
 
         // make a redirect
-        this.context.router.replace('/medicalrequest');
+        this.context.router.replace('/');
       } else {
         // failure
 

@@ -7,9 +7,7 @@ import MedicinePage from './containers/MedicinePage.jsx';
 import FoodPage from './containers/FoodPage.jsx';
 import HousePage from './containers/HousePage.jsx';
 import TourPage from './containers/TourPage.jsx';
-import CheckMedicalRequest from './containers/CheckMedicalRequest.jsx';
-import CheckHouseRequest from './containers/CheckHouseRequest.jsx';
-import CheckTourRequest from './containers/CheckTourRequest.jsx';
+import CheckRequest from './containers/CheckRequest.jsx';
 import Auth from './modules/Auth';
 
 
@@ -53,30 +51,19 @@ const routes = {
       path: '/medicine',
       component: MedicinePage
     },
-
-    {
-      path: '/medicalrequest',
-      component: CheckMedicalRequest
-    },
-
     {
       path: '/house',
       component: HousePage
     },
     {
-      path: '/houserequest',
-      component: CheckHouseRequest
+      path: '/request',
+      component: CheckRequest
     },
 
     {
       path: '/tour',
       component: TourPage
-    },
-    {
-      path: '/tourrequest',
-      component: CheckTourRequest
     }
-
   ]
 };
 

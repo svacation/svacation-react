@@ -42,7 +42,6 @@ const HouseForm = ({
 
       <CardText>申请提交后我们会尽快处理 </CardText>
     </form>
-    <Button bsSize="large"><Link to={'/houserequest'}>查看已申请的服务</Link></Button>
     <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
   </Card>
 );

@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
+import {ListGroup,ListGroupItem,Button,Card} from 'react-bootstrap';
 
 
 const Base = ({ children }) => (
-  <div>
+  <div  style = {{"fontSize": 30}}>
     <div className="top-bar">
       <div className="top-bar-left">
         <IndexLink to="/">领事旅游</IndexLink>
@@ -20,12 +21,10 @@ const Base = ({ children }) => (
           <Link to="/signup">注册</Link>
         </div>
       )}
-
     </div>
-
-    { /* child component will be rendered here */ }
     {children}
-
+      {Auth.isUserAuthenticated()&&
+          <Button bsSize="lg"><Link to={'/'}>回到主页</Link></Button>}
   </div>
 );
 

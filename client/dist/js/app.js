@@ -35026,17 +35026,9 @@
 
 	var _TourPage2 = _interopRequireDefault(_TourPage);
 
-	var _CheckMedicalRequest = __webpack_require__(643);
+	var _CheckRequest = __webpack_require__(646);
 
-	var _CheckMedicalRequest2 = _interopRequireDefault(_CheckMedicalRequest);
-
-	var _CheckHouseRequest = __webpack_require__(645);
-
-	var _CheckHouseRequest2 = _interopRequireDefault(_CheckHouseRequest);
-
-	var _CheckTourRequest = __webpack_require__(647);
-
-	var _CheckTourRequest2 = _interopRequireDefault(_CheckTourRequest);
+	var _CheckRequest2 = _interopRequireDefault(_CheckRequest);
 
 	var _Auth = __webpack_require__(397);
 
@@ -35074,20 +35066,14 @@
 	    path: '/medicine',
 	    component: _MedicinePage2.default
 	  }, {
-	    path: '/medicalrequest',
-	    component: _CheckMedicalRequest2.default
-	  }, {
 	    path: '/house',
 	    component: _HousePage2.default
 	  }, {
-	    path: '/houserequest',
-	    component: _CheckHouseRequest2.default
+	    path: '/request',
+	    component: _CheckRequest2.default
 	  }, {
 	    path: '/tour',
 	    component: _TourPage2.default
-	  }, {
-	    path: '/tourrequest',
-	    component: _CheckTourRequest2.default
 	  }]
 	};
 
@@ -35113,13 +35099,15 @@
 
 	var _Auth2 = _interopRequireDefault(_Auth);
 
+	var _reactBootstrap = __webpack_require__(458);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Base = function Base(_ref) {
 	  var children = _ref.children;
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    { style: { "fontSize": 30 } },
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'top-bar' },
@@ -35155,7 +35143,16 @@
 	        )
 	      )
 	    ),
-	    children
+	    children,
+	    _Auth2.default.isUserAuthenticated() && _react2.default.createElement(
+	      _reactBootstrap.Button,
+	      { bsSize: 'lg' },
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: '/' },
+	        '\u56DE\u5230\u4E3B\u9875'
+	      )
+	    )
 	  );
 	};
 
@@ -41156,6 +41153,15 @@
 	          { to: '/nurse' },
 	          '\u627E\u6708\u5AC2\uFF08\u672A\u5B8C\u6210\uFF09'
 	        )
+	      )
+	    ),
+	    _react2.default.createElement(
+	      _reactBootstrap.Button,
+	      { bsSize: 'lg' },
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: '/request' },
+	        '\u67E5\u770B\u5DF2\u9884\u5B9A\u7684\u670D\u52A1'
 	      )
 	    )
 	  );
@@ -61874,7 +61880,7 @@
 	        'div',
 	        { className: 'field-line' },
 	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u59D3\u540D',
+	          floatingLabelText: '\u7528\u6237\u540D',
 	          name: 'name',
 	          errorText: errors.name,
 	          onChange: onChange,
@@ -62054,6 +62060,7 @@
 	      xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
 	      xhr.responseType = 'json';
 	      xhr.addEventListener('load', function () {
+	        console.log(xhr);
 	        if (xhr.status === 200) {
 	          // success
 
@@ -62063,7 +62070,7 @@
 	          });
 
 	          // make a redirect
-	          _this2.context.router.replace('/medicalrequest');
+	          _this2.context.router.replace('/');
 	        } else {
 	          // failure
 
@@ -62245,15 +62252,6 @@
 	        _Card.CardText,
 	        null,
 	        '\u8BF7\u81F3\u5C11\u63D0\u524D\u4E00\u5929\u9884\u7EA6 '
-	      )
-	    ),
-	    _react2.default.createElement(
-	      _reactBootstrap.Button,
-	      { bsSize: 'large' },
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/medicalrequest' },
-	        '\u67E5\u770B\u5DF2\u9884\u5B9A\u7684\u670D\u52A1'
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -62655,7 +62653,7 @@
 	          });
 
 	          // make a redirect
-	          _this2.context.router.replace('/houserequest');
+	          _this2.context.router.replace('/');
 	        } else {
 	          // failure
 
@@ -62810,15 +62808,6 @@
 	      )
 	    ),
 	    _react2.default.createElement(
-	      _reactBootstrap.Button,
-	      { bsSize: 'large' },
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/houserequest' },
-	        '\u67E5\u770B\u5DF2\u7533\u8BF7\u7684\u670D\u52A1'
-	      )
-	    ),
-	    _react2.default.createElement(
 	      'h4',
 	      null,
 	      '\u7740\u6025\u7684\u4E8B\u513F\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5343\u4E07\u4E0D\u8981\u53D1\u5FAE\u4FE1\uFF0C\u803D\u8BEF\u5927\u4E8B\u513F '
@@ -62850,7 +62839,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TourForm = __webpack_require__(648);
+	var _TourForm = __webpack_require__(643);
 
 	var _TourForm2 = _interopRequireDefault(_TourForm);
 
@@ -62885,7 +62874,9 @@
 	      additional: '',
 	      time: '',
 	      hour: '',
-	      people: ''
+	      people: '',
+	      destination: '',
+	      source: ''
 	    };
 
 	    _this.processForm = _this.processForm.bind(_this);
@@ -62910,12 +62901,13 @@
 
 	      // create a string for an HTTP body message
 	      var email = encodeURIComponent(_Auth2.default.getUser());
-	      var service = encodeURIComponent(this.state.service);
+	      var source = encodeURIComponent(this.state.source);
+	      var destination = encodeURIComponent(this.state.destination);
 	      var additional = encodeURIComponent(this.state.additional);
 	      var time = encodeURIComponent(this.state.time);
 	      var hour = encodeURIComponent(this.state.hour);
 	      var people = encodeURIComponent(this.state.people);
-	      var formData = 'email=' + email + '&service=' + service + '&additional=' + additional + '&time=' + time + '&hour=' + hour + '&people=' + people;
+	      var formData = 'email=' + email + '&source=' + source + '&destination=' + destination + '&additional=' + additional + '&time=' + time + '&hour=' + hour + '&people=' + people;
 
 	      // create an AJAX request
 	      var xhr = new XMLHttpRequest();
@@ -62934,7 +62926,7 @@
 	          });
 
 	          // make a redirect
-	          _this2.context.router.replace('/tourrequest');
+	          _this2.context.router.replace('/');
 	        } else {
 	          // failure
 
@@ -62951,9 +62943,13 @@
 	  }, {
 	    key: 'changeState',
 	    value: function changeState(event) {
-	      if (event.target.name == 'service') {
+	      if (event.target.name == 'source') {
 	        this.setState({
-	          service: event.target.value
+	          source: event.target.value
+	        });
+	      } else if (event.target.name == 'destination') {
+	        this.setState({
+	          destination: event.target.value
 	        });
 	      } else if (event.target.name == 'additional') {
 	        this.setState({
@@ -63009,91 +63005,229 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _MedicineView = __webpack_require__(644);
+	var _reactRouter = __webpack_require__(338);
 
-	var _MedicineView2 = _interopRequireDefault(_MedicineView);
+	var _Card = __webpack_require__(399);
 
-	var _Auth = __webpack_require__(397);
+	var _RaisedButton = __webpack_require__(623);
 
-	var _Auth2 = _interopRequireDefault(_Auth);
+	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+	var _TextField = __webpack_require__(625);
+
+	var _TextField2 = _interopRequireDefault(_TextField);
+
+	var _reactBootstrap = __webpack_require__(458);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var TourForm = function TourForm(_ref) {
+	  var onSubmit = _ref.onSubmit,
+	      onChange = _ref.onChange,
+	      errors = _ref.errors,
+	      additional = _ref.additional,
+	      time = _ref.time,
+	      hour = _ref.hour,
+	      people = _ref.people,
+	      source = _ref.source,
+	      destination = _ref.destination;
+	  return _react2.default.createElement(
+	    _Card.Card,
+	    { className: 'container' },
+	    _react2.default.createElement(
+	      'form',
+	      { action: '/', onSubmit: onSubmit },
+	      _react2.default.createElement(
+	        'h2',
+	        { className: 'card-heading' },
+	        '\u8BF7\u9009\u62E9\u60A8\u9700\u8981\u7684\u63A5\u9001\u670D\u52A1'
+	      ),
+	      errors.summary && _react2.default.createElement(
+	        'p',
+	        { className: 'error-message' },
+	        errors.summary
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.FormGroup,
+	        { controlId: 'formControlsSelect' },
+	        _react2.default.createElement(
+	          _reactBootstrap.ControlLabel,
+	          null,
+	          '\u51FA\u53D1\u5730'
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.FormControl,
+	          { componentClass: 'select', placeholder: 'select', name: 'source', onChange: onChange },
+	          _react2.default.createElement('option', null),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u5BB6'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u6C83\u5C14\u739B'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u5217\u6CBB\u6587\u4E2D\u5FC3'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            'COSCO'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u5965\u7279\u83B1\u65AF'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            'West Coast Kid'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u673A\u573A'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'field-line' },
+	        _react2.default.createElement(_TextField2.default, {
+	          floatingLabelText: '\u51E0',
+	          name: 'time',
+	          onChange: onChange,
+	          value: time,
+	          style: { width: 30 }
+	        }),
+	        '\u5929\u540E\u9700\u8981\u670D\u52A1\uFF08\u4F8B\u5982\uFF1A\u660E\u5929\u586B 1\uFF0C\u540E\u5929\u586B 2\uFF09'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'field-line' },
+	        _react2.default.createElement(_TextField2.default, {
+	          floatingLabelText: '\u51E0',
+	          name: 'hour',
+	          onChange: onChange,
+	          value: hour,
+	          style: { width: 30 }
+	        }),
+	        '\u70B9\u5927\u6982\uFF08\u53EA\u63D0\u4F9B9-17\u70B9\u63A5\u9001\u9884\u7EA6\uFF09'
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.FormGroup,
+	        { controlId: 'formControlsSelect' },
+	        _react2.default.createElement(
+	          _reactBootstrap.ControlLabel,
+	          null,
+	          '\u76EE\u7684\u5730'
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.FormControl,
+	          { componentClass: 'select', placeholder: 'select', name: 'destination', onChange: onChange },
+	          _react2.default.createElement('option', null),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u5BB6'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u6C83\u5C14\u739B'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u5217\u6CBB\u6587\u4E2D\u5FC3'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            'COSCO'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u5965\u7279\u83B1\u65AF'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            'West Coast Kid'
+	          ),
+	          _react2.default.createElement(
+	            'option',
+	            null,
+	            '\u673A\u573A'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'field-line' },
+	        _react2.default.createElement(_TextField2.default, {
+	          floatingLabelText: '\u51E0',
+	          name: 'people',
+	          onChange: onChange,
+	          value: people,
+	          style: { width: 30 }
+	        }),
+	        '\u4EBA'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'field-line' },
+	        _react2.default.createElement(_TextField2.default, {
+	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
+	          name: 'additional',
+	          onChange: onChange,
+	          value: additional
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'button-line' },
+	        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: '\u63D0\u4EA4', primary: true })
+	      ),
+	      _react2.default.createElement(
+	        _Card.CardText,
+	        null,
+	        '\u8BF7\u81F3\u5C11\u63D0\u524D\u4E00\u5929\u9884\u7EA6 '
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'h4',
+	      null,
+	      '\u7740\u6025\u7684\u4E8B\u513F\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5343\u4E07\u4E0D\u8981\u53D1\u5FAE\u4FE1\uFF0C\u803D\u8BEF\u5927\u4E8B\u513F '
+	    )
+	  );
+	};
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	TourForm.propTypes = {
+	  onSubmit: _react.PropTypes.func.isRequired,
+	  onChange: _react.PropTypes.func.isRequired,
+	  errors: _react.PropTypes.object.isRequired
+	};
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var CheckMedicalRequest = function (_React$Component) {
-		_inherits(CheckMedicalRequest, _React$Component);
-
-		function CheckMedicalRequest(props) {
-			_classCallCheck(this, CheckMedicalRequest);
-
-			var _this = _possibleConstructorReturn(this, (CheckMedicalRequest.__proto__ || Object.getPrototypeOf(CheckMedicalRequest)).call(this, props));
-
-			_this.state = { data: [] };
-			return _this;
-		}
-
-		_createClass(CheckMedicalRequest, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				var _this2 = this;
-
-				var xhr = new XMLHttpRequest();
-				xhr.open('post', '/api/medicalRequest');
-				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-				// set the authorization HTTP header
-				xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
-				xhr.responseType = 'json';
-
-				var email = encodeURIComponent(_Auth2.default.getUser());
-				var formData = 'email=' + email;
-
-				xhr.send(formData);
-				xhr.addEventListener('load', function () {
-					if (xhr.status === 200) {
-						_this2.setState({
-							data: xhr.response
-						});
-					}
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var data = this.state.data;
-
-				return _react2.default.createElement(
-					'div',
-					null,
-					data.length && data.map(function (Data) {
-						return _react2.default.createElement(_MedicineView2.default, _extends({ key: Data._id }, Data));
-					})
-				);
-			}
-		}]);
-
-		return CheckMedicalRequest;
-	}(_react2.default.Component);
-
-	exports.default = CheckMedicalRequest;
+	exports.default = TourForm;
 
 /***/ }),
-/* 644 */
+/* 644 */,
+/* 645 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -63139,6 +63273,12 @@
 	          _reactBootstrap.ListGroupItem,
 	          null,
 	          '\u9879\u76EE   : ',
+	          this.props.type
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u670D\u52A1   : ',
 	          this.props.service
 	        ),
 	        _react2.default.createElement(
@@ -63163,172 +63303,12 @@
 	exports.default = MedicineView;
 
 /***/ }),
-/* 645 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _HouseView = __webpack_require__(646);
-
-	var _HouseView2 = _interopRequireDefault(_HouseView);
-
-	var _Auth = __webpack_require__(397);
-
-	var _Auth2 = _interopRequireDefault(_Auth);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var CheckHouseRequest = function (_React$Component) {
-		_inherits(CheckHouseRequest, _React$Component);
-
-		function CheckHouseRequest(props) {
-			_classCallCheck(this, CheckHouseRequest);
-
-			var _this = _possibleConstructorReturn(this, (CheckHouseRequest.__proto__ || Object.getPrototypeOf(CheckHouseRequest)).call(this, props));
-
-			_this.state = { data: [] };
-			return _this;
-		}
-
-		_createClass(CheckHouseRequest, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				var _this2 = this;
-
-				var xhr = new XMLHttpRequest();
-				xhr.open('post', '/api/houserequest');
-				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-				// set the authorization HTTP header
-				xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
-				xhr.responseType = 'json';
-
-				var email = encodeURIComponent(_Auth2.default.getUser());
-				var formData = 'email=' + email;
-
-				xhr.send(formData);
-				xhr.addEventListener('load', function () {
-					if (xhr.status === 200) {
-						_this2.setState({
-							data: xhr.response
-						});
-					}
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var data = this.state.data;
-
-				return _react2.default.createElement(
-					'div',
-					null,
-					data.length && data.map(function (Data) {
-						return _react2.default.createElement(_HouseView2.default, _extends({ key: Data._id }, Data));
-					})
-				);
-			}
-		}]);
-
-		return CheckHouseRequest;
-	}(_react2.default.Component);
-
-	exports.default = CheckHouseRequest;
-
-/***/ }),
 /* 646 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(338);
-
-	var _reactBootstrap = __webpack_require__(458);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var HouseView = function (_React$Component) {
-	  _inherits(HouseView, _React$Component);
-
-	  function HouseView() {
-	    _classCallCheck(this, HouseView);
-
-	    return _possibleConstructorReturn(this, (HouseView.__proto__ || Object.getPrototypeOf(HouseView)).apply(this, arguments));
-	  }
-
-	  _createClass(HouseView, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        _reactBootstrap.ListGroup,
-	        null,
-	        _react2.default.createElement(
-	          _reactBootstrap.ListGroupItem,
-	          null,
-	          '\u9879\u76EE   : ',
-	          this.props.service
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.ListGroupItem,
-	          null,
-	          '\u5907\u6CE8   : ',
-	          this.props.additional
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.ListGroupItem,
-	          null,
-	          '\u65F6\u95F4  : ',
-	          this.props.time
-	        )
-	      );
-	    }
-	  }]);
-
-	  return HouseView;
-	}(_react2.default.Component);
-
-	exports.default = HouseView;
-
-/***/ }),
-/* 647 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 
@@ -63340,7 +63320,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TourView = __webpack_require__(649);
+	var _HouseView = __webpack_require__(649);
+
+	var _HouseView2 = _interopRequireDefault(_HouseView);
+
+	var _MedicineView = __webpack_require__(645);
+
+	var _MedicineView2 = _interopRequireDefault(_MedicineView);
+
+	var _TourView = __webpack_require__(648);
 
 	var _TourView2 = _interopRequireDefault(_TourView);
 
@@ -63356,38 +63344,73 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var CheckTourRequest = function (_React$Component) {
-		_inherits(CheckTourRequest, _React$Component);
+	var CheckRequest = function (_React$Component) {
+		_inherits(CheckRequest, _React$Component);
 
-		function CheckTourRequest(props) {
-			_classCallCheck(this, CheckTourRequest);
+		function CheckRequest(props) {
+			_classCallCheck(this, CheckRequest);
 
-			var _this = _possibleConstructorReturn(this, (CheckTourRequest.__proto__ || Object.getPrototypeOf(CheckTourRequest)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (CheckRequest.__proto__ || Object.getPrototypeOf(CheckRequest)).call(this, props));
 
-			_this.state = { data: [] };
+			_this.state = {
+				mdata: [],
+				hdata: [],
+				tdata: []
+			};
 			return _this;
 		}
 
-		_createClass(CheckTourRequest, [{
+		_createClass(CheckRequest, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				var _this2 = this;
 
-				var xhr = new XMLHttpRequest();
-				xhr.open('post', '/api/TourRequest');
-				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-				// set the authorization HTTP header
-				xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
-				xhr.responseType = 'json';
-
+				//find email as token
 				var email = encodeURIComponent(_Auth2.default.getUser());
 				var formData = 'email=' + email;
+				//get houserequest
+				var hxhr = new XMLHttpRequest();
+				hxhr.open('post', '/api/houserequest');
+				hxhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				// set the authorization HTTP header
+				hxhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+				hxhr.responseType = 'json';
 
-				xhr.send(formData);
-				xhr.addEventListener('load', function () {
-					if (xhr.status === 200) {
+				hxhr.send(formData);
+				hxhr.addEventListener('load', function () {
+					if (hxhr.status === 200) {
 						_this2.setState({
-							data: xhr.response
+							hdata: hxhr.response
+						});
+					}
+				});
+				//get houserequest
+				var mxhr = new XMLHttpRequest();
+				mxhr.open('post', '/api/medicalrequest');
+				mxhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				// set the authorization HTTP header
+				mxhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+				mxhr.responseType = 'json';
+				mxhr.send(formData);
+				mxhr.addEventListener('load', function () {
+					if (mxhr.status === 200) {
+						_this2.setState({
+							mdata: mxhr.response
+						});
+					}
+				});
+				//get tourrequest
+				var txhr = new XMLHttpRequest();
+				txhr.open('post', '/api/TourRequest');
+				txhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				// set the authorization HTTP header
+				txhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+				txhr.responseType = 'json';
+				txhr.send(formData);
+				txhr.addEventListener('load', function () {
+					if (txhr.status === 200) {
+						_this2.setState({
+							tdata: txhr.response
 						});
 					}
 				});
@@ -63395,230 +63418,30 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var data = this.state.data;
-
 				return _react2.default.createElement(
 					'div',
 					null,
-					data.length && data.map(function (Data) {
+					this.state.mdata.length && this.state.mdata.map(function (Data) {
+						return _react2.default.createElement(_MedicineView2.default, _extends({ key: Data._id }, Data));
+					}),
+					this.state.hdata.length && this.state.hdata.map(function (Data) {
+						return _react2.default.createElement(_HouseView2.default, _extends({ key: Data._id }, Data));
+					}),
+					this.state.tdata.length && this.state.tdata.map(function (Data) {
 						return _react2.default.createElement(_TourView2.default, _extends({ key: Data._id }, Data));
 					})
 				);
 			}
 		}]);
 
-		return CheckTourRequest;
+		return CheckRequest;
 	}(_react2.default.Component);
 
-	exports.default = CheckTourRequest;
+	exports.default = CheckRequest;
 
 /***/ }),
+/* 647 */,
 /* 648 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(338);
-
-	var _Card = __webpack_require__(399);
-
-	var _RaisedButton = __webpack_require__(623);
-
-	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
-
-	var _TextField = __webpack_require__(625);
-
-	var _TextField2 = _interopRequireDefault(_TextField);
-
-	var _reactBootstrap = __webpack_require__(458);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var TourForm = function TourForm(_ref) {
-	  var onSubmit = _ref.onSubmit,
-	      onChange = _ref.onChange,
-	      errors = _ref.errors,
-	      additional = _ref.additional,
-	      time = _ref.time,
-	      hour = _ref.hour,
-	      people = _ref.people;
-	  return _react2.default.createElement(
-	    _Card.Card,
-	    { className: 'container' },
-	    _react2.default.createElement(
-	      'form',
-	      { action: '/', onSubmit: onSubmit },
-	      _react2.default.createElement(
-	        'h2',
-	        { className: 'card-heading' },
-	        '\u8BF7\u9009\u62E9\u60A8\u9700\u8981\u7684\u63A5\u9001\u670D\u52A1'
-	      ),
-	      errors.summary && _react2.default.createElement(
-	        'p',
-	        { className: 'error-message' },
-	        errors.summary
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.FormGroup,
-	        { controlId: 'formControlsSelect' },
-	        _react2.default.createElement(
-	          _reactBootstrap.FormControl,
-	          { componentClass: 'select', placeholder: 'select', name: 'service', onChange: onChange },
-	          _react2.default.createElement('option', null),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u6C83\u5C14\u739B\uFF08\u63A5\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u6C83\u5C14\u739B\uFF08\u9001\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u5217\u6CBB\u6587\u4E2D\u5FC3\uFF08\u63A5\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u5217\u6CBB\u6587\u4E2D\u5FC3\uFF08\u9001\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            'COSCO\uFF08\u63A5\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            'COSCO\uFF08\u9001\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u5965\u7279\u83B1\u65AF\uFF08\u63A5\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u5965\u7279\u83B1\u65AF\uFF08\u9001\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            'West Coast Kid\uFF08\u63A5\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            'West Coast Kid\uFF08\u9001\uFF09'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u63A5\u673A'
-	          ),
-	          _react2.default.createElement(
-	            'option',
-	            null,
-	            '\u9001\u673A'
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'field-line' },
-	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u51E0',
-	          name: 'time',
-	          onChange: onChange,
-	          value: time,
-	          style: { width: 30 }
-	        }),
-	        '\u5929\u540E\u9700\u8981\u670D\u52A1\uFF08\u4F8B\u5982\uFF1A\u660E\u5929\u586B 1\uFF0C\u540E\u5929\u586B 2\uFF09'
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'field-line' },
-	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u51E0',
-	          name: 'hour',
-	          onChange: onChange,
-	          value: hour,
-	          style: { width: 30 }
-	        }),
-	        '\u70B9\u5927\u6982\uFF08\u53EA\u63D0\u4F9B9-17\u70B9\u63A5\u9001\u9884\u7EA6\uFF09'
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'field-line' },
-	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u51E0',
-	          name: 'people',
-	          onChange: onChange,
-	          value: people,
-	          style: { width: 30 }
-	        }),
-	        '\u4EBA'
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'field-line' },
-	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
-	          name: 'additional',
-	          onChange: onChange,
-	          value: additional
-	        })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'button-line' },
-	        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: '\u63D0\u4EA4', primary: true })
-	      ),
-	      _react2.default.createElement(
-	        _Card.CardText,
-	        null,
-	        '\u8BF7\u81F3\u5C11\u63D0\u524D\u4E00\u5929\u9884\u7EA6 '
-	      )
-	    ),
-	    _react2.default.createElement(
-	      _reactBootstrap.Button,
-	      { bsSize: 'large' },
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/tourrequest' },
-	        '\u67E5\u770B\u5DF2\u9884\u5B9A\u7684\u670D\u52A1'
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'h4',
-	      null,
-	      '\u7740\u6025\u7684\u4E8B\u513F\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5343\u4E07\u4E0D\u8981\u53D1\u5FAE\u4FE1\uFF0C\u803D\u8BEF\u5927\u4E8B\u513F '
-	    )
-	  );
-	};
-
-	TourForm.propTypes = {
-	  onSubmit: _react.PropTypes.func.isRequired,
-	  onChange: _react.PropTypes.func.isRequired,
-	  errors: _react.PropTypes.object.isRequired
-	};
-
-	exports.default = TourForm;
-
-/***/ }),
-/* 649 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -63664,6 +63487,100 @@
 	          _reactBootstrap.ListGroupItem,
 	          null,
 	          '\u9879\u76EE   : ',
+	          this.props.type
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u51FA\u53D1\u5730   : ',
+	          this.props.source
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u51FA\u53D1\u65F6\u95F4  : ',
+	          this.props.time
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u76EE\u7684\u5730   : ',
+	          this.props.destination
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u4EBA\u6570  : ',
+	          this.props.people
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u5907\u6CE8   : ',
+	          this.props.additional
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TourView;
+	}(_react2.default.Component);
+
+	exports.default = TourView;
+
+/***/ }),
+/* 649 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(338);
+
+	var _reactBootstrap = __webpack_require__(458);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HouseView = function (_React$Component) {
+	  _inherits(HouseView, _React$Component);
+
+	  function HouseView() {
+	    _classCallCheck(this, HouseView);
+
+	    return _possibleConstructorReturn(this, (HouseView.__proto__ || Object.getPrototypeOf(HouseView)).apply(this, arguments));
+	  }
+
+	  _createClass(HouseView, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _reactBootstrap.ListGroup,
+	        null,
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u9879\u76EE   : ',
+	          this.props.type
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u670D\u52A1   : ',
 	          this.props.service
 	        ),
 	        _react2.default.createElement(
@@ -63677,21 +63594,15 @@
 	          null,
 	          '\u65F6\u95F4  : ',
 	          this.props.time
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.ListGroupItem,
-	          null,
-	          '\u4EBA\u6570  : ',
-	          this.props.people
 	        )
 	      );
 	    }
 	  }]);
 
-	  return TourView;
+	  return HouseView;
 	}(_react2.default.Component);
 
-	exports.default = TourView;
+	exports.default = HouseView;
 
 /***/ })
 /******/ ]);

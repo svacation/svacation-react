@@ -12,7 +12,9 @@ const TourForm = ({
   additional,
   time,
   hour,
-  people
+  people,
+  source,
+  destination
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
@@ -20,20 +22,16 @@ const TourForm = ({
       {errors.summary && <p className="error-message">{errors.summary}</p>}
   
   <FormGroup controlId="formControlsSelect" >
-      <FormControl componentClass="select" placeholder="select" name = "service" onChange={onChange}>
+  <ControlLabel>出发地</ControlLabel>
+      <FormControl componentClass="select" placeholder="select" name = "source" onChange={onChange}>
       <option></option>
-        <option>沃尔玛（接）</option>
-        <option>沃尔玛（送）</option>
-        <option>列治文中心（接）</option>
-        <option>列治文中心（送）</option>
-        <option>COSCO（接）</option>
-        <option>COSCO（送）</option>
-        <option>奥特莱斯（接）</option>
-        <option>奥特莱斯（送）</option>
-        <option>West Coast Kid（接）</option>
-        <option>West Coast Kid（送）</option>
-        <option>接机</option>
-        <option>送机</option>
+        <option>家</option>
+        <option>沃尔玛</option>
+        <option>列治文中心</option>
+        <option>COSCO</option>
+        <option>奥特莱斯</option>
+        <option>West Coast Kid</option>
+        <option>机场</option>
       </FormControl>
     </FormGroup>
 
@@ -58,6 +56,20 @@ const TourForm = ({
         />
         点大概（只提供9-17点接送预约）
       </div>
+
+      <FormGroup controlId="formControlsSelect" >
+      <ControlLabel>目的地</ControlLabel>
+      <FormControl componentClass="select" placeholder="select" name = "destination" onChange={onChange}>
+      <option></option>
+        <option>家</option>
+        <option>沃尔玛</option>
+        <option>列治文中心</option>
+        <option>COSCO</option>
+        <option>奥特莱斯</option>
+        <option>West Coast Kid</option>
+        <option>机场</option>
+      </FormControl>
+    </FormGroup>
 
       <div className="field-line">
         <TextField
@@ -85,7 +97,6 @@ const TourForm = ({
 
       <CardText>请至少提前一天预约 </CardText>
     </form>
-    <Button bsSize="large"><Link to={'/tourrequest'}>查看已预定的服务</Link></Button>
     <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
   </Card>
 );

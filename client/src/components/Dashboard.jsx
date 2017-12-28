@@ -33,6 +33,8 @@ const Dashboard = ({
         <ListGroupItem><Link to={'/certificate'}>办理证件（未完成）</Link></ListGroupItem>
         <ListGroupItem><Link to={'/nurse'}>找月嫂（未完成）</Link></ListGroupItem>
       </ListGroup>
+
+      <Button bsSize="lg"><Link to={'/request'}>查看已预定的服务</Link></Button>
   </Card>
 );
 

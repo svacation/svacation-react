@@ -4,12 +4,8 @@ const MedicalRequest = require('../models/medicalrequest.js');
 const HouseRequest = require('../models/houserequest.js');
 const TourRequest = require('../models/tourrequest.js');
 const validator = require('validator');
-
-
 const router = new express.Router();
 
-
-//  
 router.post('/dashboard', (req, res) => {
   //look for user
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -40,8 +36,8 @@ router.post('/medicine', (req, res) => {
   const month = extimateDate.getMonth();
   const day = extimateDate.getDate();
   const newDate = year + "/" + month +"/" + day;
-  //look for user
   const Data = {
+    type:'医疗接送',
     email:req.body.email.trim(),
     service: req.body.service.trim(),
     additional:req.body.additional.trim(),
@@ -73,6 +69,7 @@ if (!validationResult.success) {
 const currentDate = new Date(Date.now());
 //look for user
 const Data = {
+  type:"住房维修",
   email:req.body.email.trim(),
   service: req.body.service.trim(),
   additional:req.body.additional.trim(),
@@ -93,7 +90,7 @@ router.post('/houserequest',(req, res) =>{
  })
 
  router.post('/tour', (req, res) => {
-  const validationResult = validateForm(req.body);
+  const validationResult = tourValidateForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,
@@ -107,13 +104,16 @@ router.post('/houserequest',(req, res) =>{
   const month = extimateDate.getMonth();
   const day = extimateDate.getDate();
   const newDate = year + "/" + month +"/" + day +"--"+req.body.hour.trim()+"点";
+  const configDestination = req.body.destination.trim();
   //look for user
   const Data = {
+    type:"出行接送",
     email:req.body.email.trim(),
-    service: req.body.service.trim(),
-    additional:req.body.additional.trim(),
+    source: req.body.source.trim(),
+    time:newDate,
+    destination: req.body.destination.trim(),
     people:req.body.people.trim(),
-    time:newDate
+    additional:req.body.additional.trim()
   };
 const newTourRequest = new TourRequest(Data);
   newTourRequest.save((err) => {
@@ -133,18 +133,43 @@ function validateForm(payload) {
   const errors = {};
   let isFormValid = true;
   let message = '';
-
   if (!payload ||  payload.service.trim().length === 0) {
     isFormValid = false;
     errors.service = '请选择一项服务';
   }
-
   if (!isFormValid) {
     message = '申请内容不完整';
   } else {
     message = '您的申请已提交';
   }
+  return {
+    success: isFormValid,
+    message,
+    errors
+  };
+}
 
+function tourValidateForm(payload) {
+  const errors = {};
+  let isFormValid = true;
+  let message = '';
+  if (!payload ||  payload.source.trim().length === 0) {
+    isFormValid = false;
+    errors.source = '请选择出发地';
+  }
+  else if (payload.destination.trim().length === 0) {
+    isFormValid = false;
+    errors.destination = '请选择目的地';
+  }
+  else if (payload.hour.trim().length === 0||payload.time.trim().length === 0) {
+    isFormValid = false;
+    errors.destination = '请填时间';
+  }
+  if (!isFormValid) {
+    message = '申请内容不完整';
+  } else {
+    message = '您的申请已提交';
+  }
   return {
     success: isFormValid,
     message,

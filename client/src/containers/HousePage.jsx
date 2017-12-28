@@ -55,7 +55,7 @@ class HousePage extends React.Component {
         });
 
         // make a redirect
-        this.context.router.replace('/houserequest');
+        this.context.router.replace('/');
       } else {
         // failure
 

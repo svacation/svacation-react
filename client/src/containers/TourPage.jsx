@@ -19,7 +19,9 @@ class TourPage extends React.Component {
       additional: '',
       time:'',
       hour:'',
-      people:''
+      people:'',
+      destination:'',
+      source: ''
     };
 
     this.processForm = this.processForm.bind(this);
@@ -37,12 +39,13 @@ class TourPage extends React.Component {
 
     // create a string for an HTTP body message
     const email = encodeURIComponent(Auth.getUser());
-    const service = encodeURIComponent(this.state.service);
+    const source = encodeURIComponent(this.state.source);
+    const destination = encodeURIComponent(this.state.destination);
     const additional = encodeURIComponent(this.state.additional);
     const time = encodeURIComponent(this.state.time);
     const hour = encodeURIComponent(this.state.hour);
     const people = encodeURIComponent(this.state.people);
-    const formData = `email=${email}&service=${service}&additional=${additional}&time=${time}&hour=${hour}&people=${people}`;
+    const formData = `email=${email}&source=${source}&destination=${destination}&additional=${additional}&time=${time}&hour=${hour}&people=${people}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
@@ -61,7 +64,7 @@ class TourPage extends React.Component {
         });
 
         // make a redirect
-        this.context.router.replace('/tourrequest');
+        this.context.router.replace('/');
       } else {
         // failure
 
@@ -77,9 +80,14 @@ class TourPage extends React.Component {
   }
 
   changeState(event) {
-    if (event.target.name == 'service') {
+    if (event.target.name == 'source') {
         this.setState({
-            service : event.target.value
+            source : event.target.value
+        });
+      }
+    else if (event.target.name == 'destination') {
+        this.setState({
+          destination : event.target.value
         });
       }
     else if (event.target.name == 'additional') {

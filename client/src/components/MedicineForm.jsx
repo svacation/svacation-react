@@ -56,7 +56,6 @@ const MedicineForm = ({
 
       <CardText>请至少提前一天预约 </CardText>
     </form>
-    <Button bsSize="large"><Link to={'/medicalrequest'}>查看已预定的服务</Link></Button>
     <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
   </Card>
 );
