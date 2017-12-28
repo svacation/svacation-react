@@ -1,8 +1,8 @@
 import React from 'react';
-import MedicineView from '../components/MedicineView.jsx';
+import TourView from '../components/TourView.jsx';
 import Auth from '../modules/Auth';
 
-class CheckMedicalRequest extends React.Component {
+class CheckTourRequest extends React.Component {
 	constructor(props) {
 	    super(props);
 
@@ -10,7 +10,7 @@ class CheckMedicalRequest extends React.Component {
   	}
 	componentDidMount() {
 	    const xhr = new XMLHttpRequest();
-	    xhr.open('post','/api/medicalRequest');
+	    xhr.open('post','/api/TourRequest');
 	    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	    // set the authorization HTTP header
 	    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -33,7 +33,7 @@ class CheckMedicalRequest extends React.Component {
 		const { data } = this.state;
     return (
       <div>
-          {data.length && data.map(Data => <MedicineView key={Data._id} {...Data} />)}
+          {data.length && data.map(Data => <TourView key={Data._id} {...Data} />)}
 
         </div>
     );
@@ -41,4 +41,4 @@ class CheckMedicalRequest extends React.Component {
 
 }
 
-export default CheckMedicalRequest;
+export default CheckTourRequest;

@@ -23,7 +23,7 @@ module.exports = new PassportLocalStrategy({
     if (err) { return done(err); }
 
     if (!user) {
-      const error = new Error('Incorrect email or password');
+      const error = new Error('账号不存在');
       error.name = 'IncorrectCredentialsError';
 
       return done(error);
@@ -34,7 +34,7 @@ module.exports = new PassportLocalStrategy({
       if (err) { return done(err); }
 
       if (!isMatch) {
-        const error = new Error('Incorrect email or password');
+        const error = new Error('密码与账号不匹配');
         error.name = 'IncorrectCredentialsError';
 
         return done(error);

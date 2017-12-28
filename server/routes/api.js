@@ -1,6 +1,8 @@
 const express = require('express');
 const User = require('../models/user.js');
 const MedicalRequest = require('../models/medicalrequest.js');
+const HouseRequest = require('../models/houserequest.js');
+const TourRequest = require('../models/tourrequest.js');
 const validator = require('validator');
 
 
@@ -24,7 +26,7 @@ router.post('/dashboard', (req, res) => {
 });
 
 router.post('/medicine', (req, res) => {
-  const validationResult = validateMedicineForm(req.body);
+  const validationResult = validateForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,
@@ -52,14 +54,82 @@ const newMedicalRequest = new MedicalRequest(Data);
   });
 });
 
-router.get('/medicalrequest',(req, res) =>{
- MedicalRequest.find(function(err, data) {
- return res.json(data);
- });
+router.post('/medicalrequest',(req, res) =>{
+  MedicalRequest.find({ email: req.body.email }, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
  })
 
+router.post('/house', (req, res) => {
+const validationResult = validateForm(req.body);
+if (!validationResult.success) {
+  return res.status(400).json({
+    success: false,
+    message: validationResult.message,
+    errors: validationResult.errors
+  });
+}
+const currentDate = new Date(Date.now());
+//look for user
+const Data = {
+  email:req.body.email.trim(),
+  service: req.body.service.trim(),
+  additional:req.body.additional.trim(),
+  time:currentDate
+};
+const newHouseRequest = new HouseRequest(Data);
+newHouseRequest.save((err) => {
+  if (err) res.send(err);
+  return res.send(null);
+});
+});
 
-function validateMedicineForm(payload) {
+router.post('/houserequest',(req, res) =>{
+  HouseRequest.find({ email: req.body.email }, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+ })
+
+ router.post('/tour', (req, res) => {
+  const validationResult = validateForm(req.body);
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message,
+      errors: validationResult.errors
+    });
+  }
+  const dateInMiliSecond = req.body.time.trim()*86400000;
+  const extimateDate = new Date(Date.now()+dateInMiliSecond);
+  const year = extimateDate.getFullYear();
+  const month = extimateDate.getMonth();
+  const day = extimateDate.getDate();
+  const newDate = year + "/" + month +"/" + day +"--"+req.body.hour.trim()+"点";
+  //look for user
+  const Data = {
+    email:req.body.email.trim(),
+    service: req.body.service.trim(),
+    additional:req.body.additional.trim(),
+    people:req.body.people.trim(),
+    time:newDate
+  };
+const newTourRequest = new TourRequest(Data);
+  newTourRequest.save((err) => {
+    if (err) res.send(err);
+    return res.send(null);
+  });
+});
+
+router.post('/tourrequest',(req, res) =>{
+  TourRequest.find({ email: req.body.email }, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+ })
+
+function validateForm(payload) {
   const errors = {};
   let isFormValid = true;
   let message = '';
@@ -67,11 +137,6 @@ function validateMedicineForm(payload) {
   if (!payload ||  payload.service.trim().length === 0) {
     isFormValid = false;
     errors.service = '请选择一项服务';
-  }
-
-  if (!payload || payload.time.trim().length === 0) {
-    isFormValid = false;
-    errors.time = '请正确填写服务时间';
   }
 
   if (!isFormValid) {
@@ -86,5 +151,6 @@ function validateMedicineForm(payload) {
     errors
   };
 }
+
 
 module.exports = router;

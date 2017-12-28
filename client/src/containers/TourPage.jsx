@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import FoodForm from '../components/FoodForm.jsx';
+import TourForm from '../components/TourForm.jsx';
 import Auth from '../modules/Auth';
 
 
-class FoodPage extends React.Component {
+class TourPage extends React.Component {
 
   /**
    * Class constructor.
@@ -17,11 +17,13 @@ class FoodPage extends React.Component {
       email: '',
       service: '',
       additional: '',
-      time:''
+      time:'',
+      hour:'',
+      people:''
     };
 
     this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
+    this.changeState = this.changeState.bind(this);
   }
 
   /**
@@ -38,11 +40,13 @@ class FoodPage extends React.Component {
     const service = encodeURIComponent(this.state.service);
     const additional = encodeURIComponent(this.state.additional);
     const time = encodeURIComponent(this.state.time);
-    const formData = `email=${email}&service=${service}&additional=${additional}&time=${time}`;
+    const hour = encodeURIComponent(this.state.hour);
+    const people = encodeURIComponent(this.state.people);
+    const formData = `email=${email}&service=${service}&additional=${additional}&time=${time}&hour=${hour}&people=${people}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/medicine');
+    xhr.open('post', '/api/tour');
      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -57,7 +61,7 @@ class FoodPage extends React.Component {
         });
 
         // make a redirect
-        this.context.router.replace('/');
+        this.context.router.replace('/tourrequest');
       } else {
         // failure
 
@@ -72,26 +76,30 @@ class FoodPage extends React.Component {
     xhr.send(formData);
   }
 
-  /**
-   * Change the user object.
-   *
-   * @param {object} event - the JavaScript event object
-   */
-  changeUser(event) {
-    if (event.target.type == "radio") {
-      this.setState({
-        service : event.target.value
-      });
-    } else {
-        if (event.target.name == 'additional') {
-          this.setState({
-            additional : event.target.value
-          });
-        } else if (event.target.name == 'time') {
-          this.setState({
-            time : event.target.value
-          });
-        }
+  changeState(event) {
+    if (event.target.name == 'service') {
+        this.setState({
+            service : event.target.value
+        });
+      }
+    else if (event.target.name == 'additional') {
+        this.setState({
+        additional : event.target.value
+        });
+    } else if (event.target.name == 'time') {
+        this.setState({
+        time : event.target.value
+        });
+      }
+      else if (event.target.name == 'hour') {
+        this.setState({
+        hour : event.target.value
+        });
+      }
+      else if (event.target.name == 'people') {
+        this.setState({
+        people : event.target.value
+        });
       }
   }
 
@@ -100,20 +108,22 @@ class FoodPage extends React.Component {
    */
   render() {
     return (
-      <FoodForm
+      <TourForm
         onSubmit={this.processForm}
-        onChange={this.changeUser}
+        onChange={this.changeState}
         errors={this.state.errors}
         additional={this.state.additional}
         time={this.state.time}
+        hour={this.state.hour}
+        people={this.state.people}
       />
     );
   }
 
 }
 
-FoodPage.contextTypes = {
+TourPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default FoodPage;
+export default TourPage;

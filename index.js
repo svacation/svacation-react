@@ -28,8 +28,19 @@ app.use('/api', authCheckMiddleware);
 // routes
 const authRoutes = require('./server/routes/auth');
 const apiRoutes = require('./server/routes/api');
+
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
+
+
+const fs = require('fs');
+const MedicalRequest = require('./server/models/medicalrequest.js');
+//if http request is send to server (such as refresh, redirect to index)
+app.get('*', (req, res) =>{
+  res.redirect('/');
+ });
+
+ 
 
 
 // start the server

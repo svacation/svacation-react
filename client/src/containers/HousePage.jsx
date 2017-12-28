@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import FoodForm from '../components/FoodForm.jsx';
+import HouseForm from '../components/HouseForm.jsx';
 import Auth from '../modules/Auth';
 
 
-class FoodPage extends React.Component {
+class HousePage extends React.Component {
 
   /**
    * Class constructor.
@@ -17,11 +17,10 @@ class FoodPage extends React.Component {
       email: '',
       service: '',
       additional: '',
-      time:''
     };
 
     this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
+    this.changeState = this.changeState.bind(this);
   }
 
   /**
@@ -37,12 +36,11 @@ class FoodPage extends React.Component {
     const email = encodeURIComponent(Auth.getUser());
     const service = encodeURIComponent(this.state.service);
     const additional = encodeURIComponent(this.state.additional);
-    const time = encodeURIComponent(this.state.time);
-    const formData = `email=${email}&service=${service}&additional=${additional}&time=${time}`;
+    const formData = `email=${email}&service=${service}&additional=${additional}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/medicine');
+    xhr.open('post', '/api/house');
      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -57,7 +55,7 @@ class FoodPage extends React.Component {
         });
 
         // make a redirect
-        this.context.router.replace('/');
+        this.context.router.replace('/houserequest');
       } else {
         // failure
 
@@ -72,26 +70,15 @@ class FoodPage extends React.Component {
     xhr.send(formData);
   }
 
-  /**
-   * Change the user object.
-   *
-   * @param {object} event - the JavaScript event object
-   */
-  changeUser(event) {
+  changeState(event) {
     if (event.target.type == "radio") {
       this.setState({
         service : event.target.value
       });
-    } else {
-        if (event.target.name == 'additional') {
-          this.setState({
-            additional : event.target.value
-          });
-        } else if (event.target.name == 'time') {
-          this.setState({
-            time : event.target.value
-          });
-        }
+    } else {     
+      this.setState({
+        additional : event.target.value
+      });
       }
   }
 
@@ -100,20 +87,19 @@ class FoodPage extends React.Component {
    */
   render() {
     return (
-      <FoodForm
+      <HouseForm
         onSubmit={this.processForm}
-        onChange={this.changeUser}
+        onChange={this.changeState}
         errors={this.state.errors}
         additional={this.state.additional}
-        time={this.state.time}
       />
     );
   }
 
 }
 
-FoodPage.contextTypes = {
+HousePage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default FoodPage;
+export default HousePage;

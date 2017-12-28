@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup} from 'react-bootstrap';
 
-const MedicineForm = ({
+const HouseForm = ({
   onSubmit,
   onChange,
   errors,
@@ -14,15 +14,13 @@ const MedicineForm = ({
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">请选择您需要的医疗服务</h2>
+      <h2 className="card-heading">请选择您需要的维修服务</h2>
       {errors.summary && <p className="error-message">{errors.summary}</p>}
   <div>
     <ToggleButtonGroup type="radio" name = "service">
-        <ToggleButton value="看医生" onChange={onChange}>看医生</ToggleButton>
-        <ToggleButton value="住院" onChange={onChange}>住院</ToggleButton>
-        <ToggleButton value="化验" onChange={onChange}>化验</ToggleButton>
-        <ToggleButton value="出院" onChange={onChange}>出院</ToggleButton>
-        <ToggleButton value="B超" onChange={onChange}>B超</ToggleButton>
+        <ToggleButton value="水" onChange={onChange}>水</ToggleButton>
+        <ToggleButton value="电" onChange={onChange}>电</ToggleButton>
+        <ToggleButton value="煤气" onChange={onChange}>煤气</ToggleButton>
         <ToggleButton value="其他" onChange={onChange}>其他</ToggleButton>
       </ToggleButtonGroup>
   </div>
@@ -38,34 +36,22 @@ const MedicineForm = ({
         />
       </div>
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="几"
-          name="time"
-          onChange={onChange}
-          errorText={errors.time}
-          value={time}
-          style = {{width: 30}}
-        />
-        天后需要服务（例如：明天填 1，后天填 2）
-      </div>
-
       <div className="button-line">
         <RaisedButton type="submit" label="提交" primary />
       </div>
 
-      <CardText>请至少提前一天预约 </CardText>
+      <CardText>申请提交后我们会尽快处理 </CardText>
     </form>
-    <Button bsSize="large"><Link to={'/medicalrequest'}>查看已预定的服务</Link></Button>
+    <Button bsSize="large"><Link to={'/houserequest'}>查看已申请的服务</Link></Button>
     <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
   </Card>
 );
 
-MedicineForm.propTypes = {
+HouseForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
 };
 
-export default MedicineForm;
+export default HouseForm;
 

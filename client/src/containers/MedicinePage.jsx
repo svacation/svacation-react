@@ -21,7 +21,7 @@ class MedicinePage extends React.Component {
     };
 
     this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
+    this.changeState = this.changeState.bind(this);
   }
 
   /**
@@ -57,7 +57,7 @@ class MedicinePage extends React.Component {
         });
 
         // make a redirect
-        this.context.router.replace('/');
+        this.context.router.replace('/medicalrequest');
       } else {
         // failure
 
@@ -72,12 +72,7 @@ class MedicinePage extends React.Component {
     xhr.send(formData);
   }
 
-  /**
-   * Change the user object.
-   *
-   * @param {object} event - the JavaScript event object
-   */
-  changeUser(event) {
+  changeState(event) {
     if (event.target.type == "radio") {
       this.setState({
         service : event.target.value
@@ -102,7 +97,7 @@ class MedicinePage extends React.Component {
     return (
       <MedicineForm
         onSubmit={this.processForm}
-        onChange={this.changeUser}
+        onChange={this.changeState}
         errors={this.state.errors}
         additional={this.state.additional}
         time={this.state.time}
