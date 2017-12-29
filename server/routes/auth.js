@@ -26,6 +26,11 @@ function validateSignupForm(payload) {
     errors.password = '密码不能为空';
   }
 
+  if (payload.password != payload.passwordConfirm) {
+    isFormValid = false;
+    errors.passwordConfirm = '两次输入的密码不一致';
+  }
+
   if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
     isFormValid = false;
     errors.name = '名字不能为空';

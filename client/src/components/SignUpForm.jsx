@@ -14,12 +14,13 @@ const SignUpForm = ({
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">注册</h2>
+      <h5 className="card-heading">带*为必填</h5>
 
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
       <div className="field-line">
         <TextField
-          floatingLabelText="用户名"
+          floatingLabelText="用户名*"
           name="name"
           errorText={errors.name}
           onChange={onChange}
@@ -29,7 +30,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
-          floatingLabelText="电话"
+          floatingLabelText="电话*"
           name="phone"
           errorText={errors.phone}
           onChange={onChange}
@@ -39,7 +40,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
-          floatingLabelText="Email"
+          floatingLabelText="Email*"
           name="email"
           errorText={errors.email}
           onChange={onChange}
@@ -49,12 +50,23 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
-          floatingLabelText="密码"
+          floatingLabelText="密码*"
           type="password"
           name="password"
           onChange={onChange}
           errorText={errors.password}
           value={user.password}
+        />
+      </div>
+
+      <div className="field-line">
+        <TextField
+          floatingLabelText="密码确认*"
+          type="password"
+          name="passwordConfirm"
+          onChange={onChange}
+          errorText={errors.passwordConfirm}
+          value={user.passwordConfirm}
         />
       </div>
 
@@ -71,7 +83,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
-          floatingLabelText="产时（没有可不填）"
+          floatingLabelText="产时"
           type="birthday"
           name="birthday"
           onChange={onChange}

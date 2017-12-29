@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
-import HouseForm from '../components/HouseForm.jsx';
+import MedicineForm from '../components/MedicineForm.jsx';
 import Auth from '../modules/Auth';
 
 
-class HousePage extends React.Component {
+class MedicinePage extends React.Component {
 
   /**
    * Class constructor.
@@ -13,10 +13,11 @@ class HousePage extends React.Component {
 
     // set the initial component state
     this.state = {
-      errors: '',
+      errors: {},
       email: '',
       service: '',
       additional: '',
+      time:''
     };
 
     this.processForm = this.processForm.bind(this);
@@ -36,22 +37,24 @@ class HousePage extends React.Component {
     const email = encodeURIComponent(Auth.getUser());
     const service = encodeURIComponent(this.state.service);
     const additional = encodeURIComponent(this.state.additional);
-    const formData = `email=${email}&service=${service}&additional=${additional}`;
+    const time = encodeURIComponent(this.state.time);
+    const formData = `email=${email}&service=${service}&additional=${additional}&time=${time}`;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/house');
+    xhr.open('post', '/api/medicine');
      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
+      console.log(xhr);
       if (xhr.status === 200) {
         // success
 
         // change the component-container state
         this.setState({
-          errors: ''
+          errors: {}
         });
 
         // make a redirect
@@ -59,7 +62,8 @@ class HousePage extends React.Component {
       } else {
         // failure
 
-        const errors = xhr.response.message;
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
 
         this.setState({
           errors
@@ -74,10 +78,16 @@ class HousePage extends React.Component {
       this.setState({
         service : event.target.value
       });
-    } else {     
-      this.setState({
-        additional : event.target.value
-      });
+    } else {
+        if (event.target.name == 'additional') {
+          this.setState({
+            additional : event.target.value
+          });
+        } else if (event.target.name == 'time') {
+          this.setState({
+            time : event.target.value
+          });
+        }
       }
   }
 
@@ -86,19 +96,20 @@ class HousePage extends React.Component {
    */
   render() {
     return (
-      <HouseForm
+      <MedicineForm
         onSubmit={this.processForm}
         onChange={this.changeState}
         errors={this.state.errors}
         additional={this.state.additional}
+        time={this.state.time}
       />
     );
   }
 
 }
 
-HousePage.contextTypes = {
+MedicinePage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default HousePage;
+export default MedicinePage;

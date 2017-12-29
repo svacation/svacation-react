@@ -23,8 +23,11 @@ const Base = ({ children }) => (
       )}
     </div>
     {children}
+    <div>
       {Auth.isUserAuthenticated()&&
-          <Button bsSize="lg"><Link to={'/'}>回到主页</Link></Button>}
+          <Button bsSize="lg" style = {{margin:"auto",
+            display:"block"}}><Link to={'/'}>回到主页</Link></Button>}
+    </div>
   </div>
 );
 

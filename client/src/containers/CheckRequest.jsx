@@ -2,6 +2,7 @@ import React from 'react';
 import HouseView from '../components/HouseView.jsx';
 import MedicineView from '../components/MedicineView.jsx';
 import TourView from '../components/TourView.jsx';
+import {ListGroup,ListGroupItem,Button,Panel,Card} from 'react-bootstrap';
 import Auth from '../modules/Auth';
 
 class CheckRequest extends React.Component {
@@ -11,7 +12,8 @@ class CheckRequest extends React.Component {
 			this.state = { 
 				mdata:[],
 				hdata:[],
-				tdata:[]
+				tdata:[],
+				mopen: false
 			 };
   	}
 	componentDidMount() {
@@ -69,9 +71,24 @@ class CheckRequest extends React.Component {
   render() {
     return (
       <div>
-				{this.state.mdata.length && this.state.mdata.map(Data => <MedicineView key={Data._id} {...Data} />)}
-				{this.state.hdata.length && this.state.hdata.map(Data => <HouseView key={Data._id} {...Data} />)}
-				{this.state.tdata.length && this.state.tdata.map(Data => <TourView key={Data._id} {...Data} />)}
+				<Button bsSize="lg" onClick={() => this.setState({ mopen: !this.state.mopen })}>
+          医疗接送
+        </Button>
+				<Panel collapsible expanded={this.state.mopen}>
+					{this.state.mdata.length && this.state.mdata.map(Data => <MedicineView key={Data._id} {...Data} />)}
+				</Panel>
+				<Button bsSize="lg" onClick={() => this.setState({ hopen: !this.state.hopen })}>
+				住房维修	
+        </Button>
+				<Panel collapsible expanded={this.state.hopen}>
+					{this.state.hdata.length && this.state.hdata.map(Data => <MedicineView key={Data._id} {...Data} />)}
+				</Panel>
+				<Button bsSize="lg" onClick={() => this.setState({ topen: !this.state.topen })}>
+				出行接送
+        </Button>
+				<Panel collapsible expanded={this.state.topen}>
+					{this.state.tdata.length && this.state.tdata.map(Data => <MedicineView key={Data._id} {...Data} />)}
+				</Panel>
       </div>
     );
   }

@@ -65,3 +65,10 @@ a:hover {
   padding: 0 16px;
   color: green;
 }
+
+.list-group {
+  font-weight: bold;
+  text-decoration: none;
+  padding: 26px;
+  margin: 0 auto;
+}

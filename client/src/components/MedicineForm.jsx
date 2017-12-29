@@ -4,6 +4,8 @@ import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup} from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const MedicineForm = ({
   onSubmit,
@@ -11,23 +13,31 @@ const MedicineForm = ({
   errors,
   additional,
   time,
-}) => (
+  changeDate
+}
+) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">请选择您需要的医疗服务</h2>
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
-  <div>
-    <ToggleButtonGroup type="radio" name = "service">
-        <ToggleButton value="看医生" onChange={onChange}>看医生</ToggleButton>
-        <ToggleButton value="住院" onChange={onChange}>住院</ToggleButton>
-        <ToggleButton value="化验" onChange={onChange}>化验</ToggleButton>
-        <ToggleButton value="出院" onChange={onChange}>出院</ToggleButton>
-        <ToggleButton value="B超" onChange={onChange}>B超</ToggleButton>
-        <ToggleButton value="其他" onChange={onChange}>其他</ToggleButton>
-      </ToggleButtonGroup>
-  </div>
-      
-
+      {errors && <p className="error-message">{errors}</p>}
+      <div>
+        <ToggleButtonGroup type="radio" name = "service">
+            <ToggleButton value="看医生" onChange={onChange}>看医生</ToggleButton>
+            <ToggleButton value="住院" onChange={onChange}>住院</ToggleButton>
+            <ToggleButton value="化验" onChange={onChange}>化验</ToggleButton>
+            <ToggleButton value="出院" onChange={onChange}>出院</ToggleButton>
+            <ToggleButton value="B超" onChange={onChange}>B超</ToggleButton>
+            <ToggleButton value="其他" onChange={onChange}>其他</ToggleButton>
+          </ToggleButtonGroup>
+      </div>
+      <CardText>选择服务时间（请至少提前一天预约 ）</CardText>
+      <DatePicker 
+      selected={time} 
+      onChange={changeDate} 
+      showTimeSelect
+      timeIntervals={60}
+      dateFormat="LLL"
+      />
 
       <div className="field-line">
         <TextField
@@ -38,25 +48,11 @@ const MedicineForm = ({
         />
       </div>
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="几"
-          name="time"
-          onChange={onChange}
-          errorText={errors.time}
-          value={time}
-          style = {{width: 30}}
-        />
-        天后需要服务（例如：明天填 1，后天填 2）
-      </div>
-
       <div className="button-line">
         <RaisedButton type="submit" label="提交" primary />
       </div>
-
-      <CardText>请至少提前一天预约 </CardText>
     </form>
-    <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
+      <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
   </Card>
 );
 

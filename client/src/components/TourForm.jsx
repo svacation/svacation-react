@@ -4,6 +4,10 @@ import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup,FormGroup,ControlLabel,FormControl} from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
+
 
 const TourForm = ({
   onSubmit,
@@ -11,15 +15,15 @@ const TourForm = ({
   errors,
   additional,
   time,
-  hour,
   people,
   source,
-  destination
+  destination,
+  changeDate
 }) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">请选择您需要的接送服务</h2>
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+      {errors && <p className="error-message">{errors}</p>}
   
   <FormGroup controlId="formControlsSelect" >
   <ControlLabel>出发地</ControlLabel>
@@ -35,27 +39,18 @@ const TourForm = ({
       </FormControl>
     </FormGroup>
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="几"
-          name="time"
-          onChange={onChange}
-          value={time}
-          style = {{width: 30}}
-        />
-        天后需要服务（例如：明天填 1，后天填 2）
-      </div>
+    <CardText>选择出发时间（请至少提前一天预约 ）</CardText>
+    <CardText>只支持9点-17点的预约</CardText>
+      <DatePicker 
+      selected={time} 
+      onChange={changeDate}
+      showTimeSelect
+      minTime={moment().hours(9).minutes(0)}
+      maxTime={moment().hours(17).minutes(0)}
+      timeIntervals={60}
+      dateFormat="LLL"
+      />
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="几"
-          name="hour"
-          onChange={onChange}
-          value={hour}
-          style = {{width: 30}}
-        />
-        点大概（只提供9-17点接送预约）
-      </div>
 
       <FormGroup controlId="formControlsSelect" >
       <ControlLabel>目的地</ControlLabel>
@@ -94,8 +89,6 @@ const TourForm = ({
       <div className="button-line">
         <RaisedButton type="submit" label="提交" primary />
       </div>
-
-      <CardText>请至少提前一天预约 </CardText>
     </form>
     <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
   </Card>

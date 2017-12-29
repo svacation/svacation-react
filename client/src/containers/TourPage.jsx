@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import TourForm from '../components/TourForm.jsx';
 import Auth from '../modules/Auth';
+import moment from 'moment';
 
 
 class TourPage extends React.Component {
@@ -13,11 +14,11 @@ class TourPage extends React.Component {
 
     // set the initial component state
     this.state = {
-      errors: {},
+      errors: '',
       email: '',
       service: '',
       additional: '',
-      time:'',
+      time:moment(),
       hour:'',
       people:'',
       destination:'',
@@ -26,6 +27,7 @@ class TourPage extends React.Component {
 
     this.processForm = this.processForm.bind(this);
     this.changeState = this.changeState.bind(this);
+    this.changeDate = this.changeDate.bind(this);
   }
 
   /**
@@ -60,7 +62,7 @@ class TourPage extends React.Component {
 
         // change the component-container state
         this.setState({
-          errors: {}
+          errors: ''
         });
 
         // make a redirect
@@ -68,8 +70,7 @@ class TourPage extends React.Component {
       } else {
         // failure
 
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
+        const errors= xhr.response.message;
 
         this.setState({
           errors
@@ -94,21 +95,17 @@ class TourPage extends React.Component {
         this.setState({
         additional : event.target.value
         });
-    } else if (event.target.name == 'time') {
-        this.setState({
-        time : event.target.value
-        });
-      }
-      else if (event.target.name == 'hour') {
-        this.setState({
-        hour : event.target.value
-        });
-      }
+    } 
       else if (event.target.name == 'people') {
         this.setState({
         people : event.target.value
         });
       }
+  }
+  changeDate(date) {
+    this.setState({
+      time: date
+    });
   }
 
   /**
@@ -122,8 +119,8 @@ class TourPage extends React.Component {
         errors={this.state.errors}
         additional={this.state.additional}
         time={this.state.time}
-        hour={this.state.hour}
         people={this.state.people}
+        changeDate={this.changeDate}
       />
     );
   }

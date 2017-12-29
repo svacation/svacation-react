@@ -22,26 +22,19 @@ router.post('/dashboard', (req, res) => {
 });
 
 router.post('/medicine', (req, res) => {
-  const validationResult = validateForm(req.body);
+  const validationResult = medicineValidateForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
       success: false,
-      message: validationResult.message,
-      errors: validationResult.errors
+      message: validationResult.message
     });
   }
-  const timeInMiliSecond = req.body.time.trim()*86400000;
-  const extimateDate = new Date(Date.now()+timeInMiliSecond);
-  const year = extimateDate.getFullYear();
-  const month = extimateDate.getMonth();
-  const day = extimateDate.getDate();
-  const newDate = year + "/" + month +"/" + day;
   const Data = {
     type:'医疗接送',
     email:req.body.email.trim(),
     service: req.body.service.trim(),
     additional:req.body.additional.trim(),
-    time:newDate
+    time:req.body.time.trim()
   };
 const newMedicalRequest = new MedicalRequest(Data);
   newMedicalRequest.save((err) => {
@@ -58,12 +51,10 @@ router.post('/medicalrequest',(req, res) =>{
  })
 
 router.post('/house', (req, res) => {
-const validationResult = validateForm(req.body);
-if (!validationResult.success) {
+if (req.body.service.trim().length == 0) {
   return res.status(400).json({
     success: false,
-    message: validationResult.message,
-    errors: validationResult.errors
+    message: "请选择维修项目"
   });
 }
 const currentDate = new Date(Date.now());
@@ -98,19 +89,12 @@ router.post('/houserequest',(req, res) =>{
       errors: validationResult.errors
     });
   }
-  const dateInMiliSecond = req.body.time.trim()*86400000;
-  const extimateDate = new Date(Date.now()+dateInMiliSecond);
-  const year = extimateDate.getFullYear();
-  const month = extimateDate.getMonth();
-  const day = extimateDate.getDate();
-  const newDate = year + "/" + month +"/" + day +"--"+req.body.hour.trim()+"点";
-  const configDestination = req.body.destination.trim();
   //look for user
   const Data = {
     type:"出行接送",
     email:req.body.email.trim(),
     source: req.body.source.trim(),
-    time:newDate,
+    time:req.body.time.trim(),
     destination: req.body.destination.trim(),
     people:req.body.people.trim(),
     additional:req.body.additional.trim()
@@ -129,52 +113,59 @@ router.post('/tourrequest',(req, res) =>{
   });
  })
 
-function validateForm(payload) {
-  const errors = {};
+function medicineValidateForm(payload) {
   let isFormValid = true;
   let message = '';
   if (!payload ||  payload.service.trim().length === 0) {
     isFormValid = false;
-    errors.service = '请选择一项服务';
+    message = '请选择一项服务';
   }
-  if (!isFormValid) {
-    message = '申请内容不完整';
-  } else {
+  if (!validExpectedDate(payload.time.trim())) {
+    isFormValid = false;
+    message = '预约时间请提前至少一天';
+  }
+
+  if (isFormValid) {
     message = '您的申请已提交';
   }
   return {
     success: isFormValid,
-    message,
-    errors
+    message
   };
 }
 
 function tourValidateForm(payload) {
-  const errors = {};
   let isFormValid = true;
   let message = '';
   if (!payload ||  payload.source.trim().length === 0) {
     isFormValid = false;
-    errors.source = '请选择出发地';
+    message = '请选择出发地';
   }
   else if (payload.destination.trim().length === 0) {
     isFormValid = false;
-    errors.destination = '请选择目的地';
+    message = '请选择目的地';
   }
-  else if (payload.hour.trim().length === 0||payload.time.trim().length === 0) {
+  if (!validExpectedDate(payload.time.trim())) {
     isFormValid = false;
-    errors.destination = '请填时间';
+    message = '预约时间请提前至少一天';
   }
-  if (!isFormValid) {
-    message = '申请内容不完整';
-  } else {
+  if (isFormValid) {
     message = '您的申请已提交';
   }
   return {
     success: isFormValid,
-    message,
-    errors
+    message
   };
+}
+
+function validExpectedDate(stringDate) {
+  const expectedDate = new Date(stringDate);
+  const curDate = new Date(Date.now());
+  const tomorrow = Date.now() - curDate.getHours()*3600000 - curDate.getMinutes()*60000 + 86400000;
+  if (expectedDate.getTime()>tomorrow) {
+    return true;
+  }
+  else return false;
 }
 
 

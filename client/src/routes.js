@@ -7,6 +7,7 @@ import MedicinePage from './containers/MedicinePage.jsx';
 import FoodPage from './containers/FoodPage.jsx';
 import HousePage from './containers/HousePage.jsx';
 import TourPage from './containers/TourPage.jsx';
+import NursePage from './containers/NursePage.jsx';
 import CheckRequest from './containers/CheckRequest.jsx';
 import Auth from './modules/Auth';
 
@@ -63,6 +64,12 @@ const routes = {
     {
       path: '/tour',
       component: TourPage
+    },
+    ,
+
+    {
+      path: '/nurse',
+      component: NursePage
     }
   ]
 };

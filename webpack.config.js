@@ -15,13 +15,19 @@ module.exports = {
 
     // apply loaders to files that meet given conditions
     loaders: [{
-      test: /\.jsx?$/,
+      test: /\.jsx?$/,  
       include: path.join(__dirname, '/client/src'),
       loader: 'babel',
       query: {
         presets: ["react", "es2015"]
-      }
-    }],
+      },
+    },
+    {
+      test: /(\.css)$/,
+      include: path.join(__dirname, 'node_modules/react-datepicker/dist/'),
+      loaders: ['style', 'css?sourceMap']
+    }
+  ],
   },
 
   // start Webpack in a watch mode, so Webpack will rebuild the bundle on changes

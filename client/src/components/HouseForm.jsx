@@ -15,7 +15,7 @@ const HouseForm = ({
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">请选择您需要的维修服务</h2>
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+      {errors && <p className="error-message">{errors}</p>}
   <div>
     <ToggleButtonGroup type="radio" name = "service">
         <ToggleButton value="水" onChange={onChange}>水</ToggleButton>

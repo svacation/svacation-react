@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import MedicineForm from '../components/MedicineForm.jsx';
 import Auth from '../modules/Auth';
+import moment from 'moment';
 
 
 class MedicinePage extends React.Component {
@@ -13,15 +14,16 @@ class MedicinePage extends React.Component {
 
     // set the initial component state
     this.state = {
-      errors: {},
+      errors: '',
       email: '',
       service: '',
       additional: '',
-      time:''
+      time:moment()
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeState = this.changeState.bind(this);
+    this.changeDate = this.changeDate.bind(this);
   }
 
   /**
@@ -54,7 +56,7 @@ class MedicinePage extends React.Component {
 
         // change the component-container state
         this.setState({
-          errors: {}
+          errors: ''
         });
 
         // make a redirect
@@ -62,8 +64,7 @@ class MedicinePage extends React.Component {
       } else {
         // failure
 
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
+        const errors = xhr.response.message;
 
         this.setState({
           errors
@@ -83,12 +84,14 @@ class MedicinePage extends React.Component {
           this.setState({
             additional : event.target.value
           });
-        } else if (event.target.name == 'time') {
-          this.setState({
-            time : event.target.value
-          });
-        }
+        } 
       }
+  }
+
+  changeDate(date) {
+    this.setState({
+      time: date
+    });
   }
 
   /**
@@ -101,6 +104,7 @@ class MedicinePage extends React.Component {
         onChange={this.changeState}
         errors={this.state.errors}
         additional={this.state.additional}
+        changeDate={this.changeDate}
         time={this.state.time}
       />
     );
