@@ -35030,7 +35030,7 @@
 
 	var _NursePage2 = _interopRequireDefault(_NursePage);
 
-	var _CheckRequest = __webpack_require__(779);
+	var _CheckRequest = __webpack_require__(780);
 
 	var _CheckRequest2 = _interopRequireDefault(_CheckRequest);
 
@@ -35154,7 +35154,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      null,
-	      _Auth2.default.isUserAuthenticated() && _react2.default.createElement(
+	      _Auth2.default.isUserAuthenticated() && Object.entries(children)[1][1].name != "DashboardPage" && _react2.default.createElement(
 	        _reactBootstrap.Button,
 	        { bsSize: 'lg', style: { margin: "auto",
 	            display: "block" } },
@@ -62342,7 +62342,7 @@
 	        'div',
 	        { className: 'field-line' },
 	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
+	          floatingLabelText: '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42',
 	          name: 'additional',
 	          onChange: onChange,
 	          value: additional
@@ -85873,7 +85873,7 @@
 	        'div',
 	        { className: 'field-line' },
 	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
+	          floatingLabelText: '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42',
 	          name: 'additional',
 	          onChange: onChange,
 	          value: additional
@@ -86282,7 +86282,7 @@
 	        'div',
 	        { className: 'field-line' },
 	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
+	          floatingLabelText: '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42',
 	          name: 'additional',
 	          onChange: onChange,
 	          value: additional
@@ -86325,7 +86325,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _NurseForm = __webpack_require__(783);
+	var _NurseForm = __webpack_require__(779);
 
 	var _NurseForm2 = _interopRequireDefault(_NurseForm);
 
@@ -86478,6 +86478,149 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(338);
+
+	var _Card = __webpack_require__(569);
+
+	var _RaisedButton = __webpack_require__(623);
+
+	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+	var _TextField = __webpack_require__(625);
+
+	var _TextField2 = _interopRequireDefault(_TextField);
+
+	var _reactBootstrap = __webpack_require__(398);
+
+	var _reactDatepicker = __webpack_require__(638);
+
+	var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
+
+	__webpack_require__(767);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var NurseForm = function NurseForm(_ref) {
+	  var onSubmit = _ref.onSubmit,
+	      onChange = _ref.onChange,
+	      errors = _ref.errors,
+	      additional = _ref.additional,
+	      time = _ref.time,
+	      changeDate = _ref.changeDate,
+	      service = _ref.service;
+	  return _react2.default.createElement(
+	    _Card.Card,
+	    { className: 'container' },
+	    _react2.default.createElement(
+	      'form',
+	      { action: '/', onSubmit: onSubmit },
+	      _react2.default.createElement(
+	        'h2',
+	        { className: 'card-heading' },
+	        '\u8BF7\u9009\u62E9\u60A8\u9700\u8981\u7684\u6708\u5AC2\u6761\u4EF6'
+	      ),
+	      errors && _react2.default.createElement(
+	        'p',
+	        { className: 'error-message' },
+	        errors
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          _Card.CardText,
+	          null,
+	          '\u5927\u6982\u4EF7\u4F4D/\u5929\uFF08\u5B9E\u9645\u4F1A\u6709\u4E9B\u8BB8\u5DEE\u522B\uFF09'
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ToggleButtonGroup,
+	          { type: 'radio', name: 'service' },
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '50\u52A0\u5E01', onChange: onChange },
+	            '50\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '100\u52A0\u5E01', onChange: onChange },
+	            '100\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '150\u52A0\u5E01', onChange: onChange },
+	            '150\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '200\u52A0\u5E01', onChange: onChange },
+	            '100\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '250\u52A0\u5E01', onChange: onChange },
+	            '250\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '\u5176\u4ED6', onChange: onChange },
+	            '\u5176\u4ED6'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _Card.CardText,
+	        null,
+	        '\u9009\u62E9\u670D\u52A1\u65F6\u95F4\uFF08\u8BF7\u81F3\u5C11\u63D0\u524D30\u5929\u9884\u7EA6 \uFF09'
+	      ),
+	      _react2.default.createElement(_reactDatepicker2.default, {
+	        selected: time,
+	        onChange: changeDate
+	      }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'field-line' },
+	        _react2.default.createElement(_TextField2.default, {
+	          floatingLabelText: '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42',
+	          name: 'additional',
+	          onChange: onChange,
+	          value: additional
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'button-line' },
+	        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: '\u63D0\u4EA4', primary: true })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'h4',
+	      null,
+	      '\u6025\u4E8B\u8BF7\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5FAE\u4FE1\u6709\u65F6\u65E0\u6CD5\u53CA\u65F6\u56DE\u590D '
+	    )
+	  );
+	};
+
+	NurseForm.propTypes = {
+	  onSubmit: _react.PropTypes.func.isRequired,
+	  onChange: _react.PropTypes.func.isRequired
+	};
+
+	exports.default = NurseForm;
+
+/***/ }),
+/* 780 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
 
@@ -86489,15 +86632,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _HouseView = __webpack_require__(780);
+	var _HouseView = __webpack_require__(781);
 
 	var _HouseView2 = _interopRequireDefault(_HouseView);
 
-	var _MedicineView = __webpack_require__(781);
+	var _MedicineView = __webpack_require__(782);
 
 	var _MedicineView2 = _interopRequireDefault(_MedicineView);
 
-	var _TourView = __webpack_require__(782);
+	var _TourView = __webpack_require__(783);
 
 	var _TourView2 = _interopRequireDefault(_TourView);
 
@@ -86621,7 +86764,8 @@
 					null,
 					_react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', onClick: function onClick() {
+						{ bsSize: 'lg', style: { margin: "auto",
+								display: "block" }, onClick: function onClick() {
 								return _this3.setState({ mopen: !_this3.state.mopen });
 							} },
 						'\u533B\u7597\u63A5\u9001'
@@ -86635,7 +86779,8 @@
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', onClick: function onClick() {
+						{ bsSize: 'lg', style: { margin: "auto",
+								display: "block" }, onClick: function onClick() {
 								return _this3.setState({ hopen: !_this3.state.hopen });
 							} },
 						'\u4F4F\u623F\u7EF4\u4FEE'
@@ -86649,7 +86794,8 @@
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', onClick: function onClick() {
+						{ bsSize: 'lg', style: { margin: "auto",
+								display: "block" }, onClick: function onClick() {
 								return _this3.setState({ topen: !_this3.state.topen });
 							} },
 						'\u51FA\u884C\u63A5\u9001'
@@ -86663,7 +86809,8 @@
 					),
 					_react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', onClick: function onClick() {
+						{ bsSize: 'lg', style: { margin: "auto",
+								display: "block" }, onClick: function onClick() {
 								return _this3.setState({ nopen: !_this3.state.nopen });
 							} },
 						'\u5E2E\u627E\u6708\u5AC2'
@@ -86685,7 +86832,7 @@
 	exports.default = CheckRequest;
 
 /***/ }),
-/* 780 */
+/* 781 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -86761,7 +86908,7 @@
 	exports.default = HouseView;
 
 /***/ }),
-/* 781 */
+/* 782 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -86837,7 +86984,7 @@
 	exports.default = MedicineView;
 
 /***/ }),
-/* 782 */
+/* 783 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -86923,149 +87070,6 @@
 	}(_react2.default.Component);
 
 	exports.default = TourView;
-
-/***/ }),
-/* 783 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(338);
-
-	var _Card = __webpack_require__(569);
-
-	var _RaisedButton = __webpack_require__(623);
-
-	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
-
-	var _TextField = __webpack_require__(625);
-
-	var _TextField2 = _interopRequireDefault(_TextField);
-
-	var _reactBootstrap = __webpack_require__(398);
-
-	var _reactDatepicker = __webpack_require__(638);
-
-	var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
-
-	__webpack_require__(767);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var NurseForm = function NurseForm(_ref) {
-	  var onSubmit = _ref.onSubmit,
-	      onChange = _ref.onChange,
-	      errors = _ref.errors,
-	      additional = _ref.additional,
-	      time = _ref.time,
-	      changeDate = _ref.changeDate,
-	      service = _ref.service;
-	  return _react2.default.createElement(
-	    _Card.Card,
-	    { className: 'container' },
-	    _react2.default.createElement(
-	      'form',
-	      { action: '/', onSubmit: onSubmit },
-	      _react2.default.createElement(
-	        'h2',
-	        { className: 'card-heading' },
-	        '\u8BF7\u9009\u62E9\u60A8\u9700\u8981\u7684\u6708\u5AC2\u6761\u4EF6'
-	      ),
-	      errors && _react2.default.createElement(
-	        'p',
-	        { className: 'error-message' },
-	        errors
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          _Card.CardText,
-	          null,
-	          '\u5927\u6982\u4EF7\u4F4D/\u5929\uFF08\u5B9E\u9645\u4F1A\u6709\u4E9B\u8BB8\u5DEE\u522B\uFF09'
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.ToggleButtonGroup,
-	          { type: 'radio', name: 'service' },
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '50\u52A0\u5E01', onChange: onChange },
-	            '50\u52A0\u5E01'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '100\u52A0\u5E01', onChange: onChange },
-	            '100\u52A0\u5E01'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '150\u52A0\u5E01', onChange: onChange },
-	            '150\u52A0\u5E01'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '200\u52A0\u5E01', onChange: onChange },
-	            '100\u52A0\u5E01'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '250\u52A0\u5E01', onChange: onChange },
-	            '250\u52A0\u5E01'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '\u5176\u4ED6', onChange: onChange },
-	            '\u5176\u4ED6'
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _Card.CardText,
-	        null,
-	        '\u9009\u62E9\u670D\u52A1\u65F6\u95F4\uFF08\u8BF7\u81F3\u5C11\u63D0\u524D30\u5929\u9884\u7EA6 \uFF09'
-	      ),
-	      _react2.default.createElement(_reactDatepicker2.default, {
-	        selected: time,
-	        onChange: changeDate
-	      }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'field-line' },
-	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
-	          name: 'additional',
-	          onChange: onChange,
-	          value: additional
-	        })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'button-line' },
-	        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: '\u63D0\u4EA4', primary: true })
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'h4',
-	      null,
-	      '\u6025\u4E8B\u8BF7\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5FAE\u4FE1\u6709\u65F6\u65E0\u6CD5\u53CA\u65F6\u56DE\u590D '
-	    )
-	  );
-	};
-
-	NurseForm.propTypes = {
-	  onSubmit: _react.PropTypes.func.isRequired,
-	  onChange: _react.PropTypes.func.isRequired
-	};
-
-	exports.default = NurseForm;
 
 /***/ }),
 /* 784 */

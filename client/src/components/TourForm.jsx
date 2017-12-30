@@ -79,7 +79,7 @@ const TourForm = ({
       
       <div className="field-line">
         <TextField
-          floatingLabelText="备注 (没有可不填)"
+          floatingLabelText="其他服务或特殊要求"
           name="additional"
           onChange={onChange}
           value={additional}

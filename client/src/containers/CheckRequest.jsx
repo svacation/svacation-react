@@ -92,25 +92,29 @@ class CheckRequest extends React.Component {
   render() {
     return (
       <div>
-				<Button bsSize="lg" onClick={() => this.setState({ mopen: !this.state.mopen })}>
+				<Button bsSize="lg" style = {{margin:"auto",
+			display:"block"}} onClick={() => this.setState({ mopen: !this.state.mopen })}>
           医疗接送
         </Button>
 				<Panel collapsible expanded={this.state.mopen}>
 					{this.state.mdata.length && this.state.mdata.map(Data => <MedicineView key={Data._id} {...Data} />)}
 				</Panel>
-				<Button bsSize="lg" onClick={() => this.setState({ hopen: !this.state.hopen })}>
+				<Button bsSize="lg" style = {{margin:"auto",
+			display:"block"}} onClick={() => this.setState({ hopen: !this.state.hopen })}>
 				住房维修	
         </Button>
 				<Panel collapsible expanded={this.state.hopen}>
 					{this.state.hdata.length && this.state.hdata.map(Data => <HouseView key={Data._id} {...Data} />)}
 				</Panel>
-				<Button bsSize="lg" onClick={() => this.setState({ topen: !this.state.topen })}>
+				<Button bsSize="lg" style = {{margin:"auto",
+			display:"block"}} onClick={() => this.setState({ topen: !this.state.topen })}>
 				出行接送
         </Button>
 				<Panel collapsible expanded={this.state.topen}>
 					{this.state.tdata.length && this.state.tdata.map(Data => <TourView key={Data._id} {...Data} />)}
 				</Panel>
-				<Button bsSize="lg" onClick={() => this.setState({ nopen: !this.state.nopen })}>
+				<Button bsSize="lg" style = {{margin:"auto",
+			display:"block"}} onClick={() => this.setState({ nopen: !this.state.nopen })}>
 				帮找月嫂
         </Button>
 				<Panel collapsible expanded={this.state.nopen}>

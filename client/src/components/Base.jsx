@@ -24,7 +24,7 @@ const Base = ({ children }) => (
     </div>
     {children}
     <div>
-      {Auth.isUserAuthenticated()&&
+      {Auth.isUserAuthenticated()&&(Object.entries(children)[1][1].name!="DashboardPage")&&
           <Button bsSize="lg" style = {{margin:"auto",
             display:"block"}}><Link to={'/'}>回到主页</Link></Button>}
     </div>
