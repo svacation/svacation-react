@@ -147,7 +147,7 @@ router.post('/login', (req, res, next) => {
 
     return res.json({
       success: true,
-      message: 'You have successfully logged in!',
+      message: '登入成功！',
       token,
       user: userData
     });

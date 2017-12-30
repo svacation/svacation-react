@@ -59,7 +59,7 @@ class TourPage extends React.Component {
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         // success
-
+        localStorage.setItem('successMessage', xhr.response.message);
         // change the component-container state
         this.setState({
           errors: ''

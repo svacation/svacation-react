@@ -50,10 +50,9 @@ class MedicinePage extends React.Component {
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
-      console.log(xhr);
       if (xhr.status === 200) {
         // success
-
+        localStorage.setItem('successMessage', xhr.response.message);
         // change the component-container state
         this.setState({
           errors: ''

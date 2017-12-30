@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
-import MedicineForm from '../components/MedicineForm.jsx';
+import NurseForm from '../components/NurseForm.jsx';
 import Auth from '../modules/Auth';
+import moment from 'moment';
 
 
-class MedicinePage extends React.Component {
+class NursePage extends React.Component {
 
   /**
    * Class constructor.
@@ -13,15 +14,16 @@ class MedicinePage extends React.Component {
 
     // set the initial component state
     this.state = {
-      errors: {},
+      errors: '',
       email: '',
       service: '',
       additional: '',
-      time:''
+      time:moment()
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeState = this.changeState.bind(this);
+    this.changeDate = this.changeDate.bind(this);
   }
 
   /**
@@ -42,7 +44,7 @@ class MedicinePage extends React.Component {
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/medicine');
+    xhr.open('post', '/api/nurse');
      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
@@ -51,20 +53,17 @@ class MedicinePage extends React.Component {
       console.log(xhr);
       if (xhr.status === 200) {
         // success
-
+        localStorage.setItem('successMessage', xhr.response.message);
         // change the component-container state
         this.setState({
-          errors: {}
+          errors: ''
         });
 
         // make a redirect
         this.context.router.replace('/');
       } else {
         // failure
-
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
+        const errors = xhr.response.message;
         this.setState({
           errors
         });
@@ -74,21 +73,22 @@ class MedicinePage extends React.Component {
   }
 
   changeState(event) {
-    if (event.target.type == "radio") {
+    if (event.target.name == 'service') {
       this.setState({
         service : event.target.value
       });
-    } else {
-        if (event.target.name == 'additional') {
-          this.setState({
-            additional : event.target.value
-          });
-        } else if (event.target.name == 'time') {
-          this.setState({
-            time : event.target.value
-          });
-        }
-      }
+    }
+  else if (event.target.name == 'additional') {
+      this.setState({
+        additional : event.target.value
+      });
+    }
+  }
+
+  changeDate(date) {
+    this.setState({
+      time: date
+    });
   }
 
   /**
@@ -96,20 +96,22 @@ class MedicinePage extends React.Component {
    */
   render() {
     return (
-      <MedicineForm
+      <NurseForm
         onSubmit={this.processForm}
         onChange={this.changeState}
         errors={this.state.errors}
         additional={this.state.additional}
+        changeDate={this.changeDate}
         time={this.state.time}
+        service={this.state.service}
       />
     );
   }
 
 }
 
-MedicinePage.contextTypes = {
+NursePage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default MedicinePage;
+export default NursePage;

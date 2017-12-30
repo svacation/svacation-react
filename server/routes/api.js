@@ -3,6 +3,7 @@ const User = require('../models/user.js');
 const MedicalRequest = require('../models/medicalrequest.js');
 const HouseRequest = require('../models/houserequest.js');
 const TourRequest = require('../models/tourrequest.js');
+const NurseRequest = require('../models/nurserequest.js');
 const validator = require('validator');
 const router = new express.Router();
 
@@ -39,7 +40,10 @@ router.post('/medicine', (req, res) => {
 const newMedicalRequest = new MedicalRequest(Data);
   newMedicalRequest.save((err) => {
     if (err) res.send(err);
-    return res.send(null);
+    return res.json({
+      success: true,
+      message: "医疗接送项目预约已提交！"
+    });
   });
 });
 
@@ -56,6 +60,8 @@ if (req.body.service.trim().length == 0) {
     success: false,
     message: "请选择维修项目"
   });
+} else {
+    
 }
 const currentDate = new Date(Date.now());
 //look for user
@@ -69,7 +75,10 @@ const Data = {
 const newHouseRequest = new HouseRequest(Data);
 newHouseRequest.save((err) => {
   if (err) res.send(err);
-  return res.send(null);
+  return res.json({
+    success: true,
+    message: "维修项目预约已提交！"
+  });
 });
 });
 
@@ -99,15 +108,60 @@ router.post('/houserequest',(req, res) =>{
     people:req.body.people.trim(),
     additional:req.body.additional.trim()
   };
-const newTourRequest = new TourRequest(Data);
+const newTourRequest = TourRequest(Data);
   newTourRequest.save((err) => {
     if (err) res.send(err);
-    return res.send(null);
+    return res.json({
+      success: true,
+      message: "出行接送项目预约已提交！"
+    });
   });
 });
 
 router.post('/tourrequest',(req, res) =>{
   TourRequest.find({ email: req.body.email }, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+ })
+
+ router.post('/nurse', (req, res) => {
+  const validationResult = medicineValidateForm(req.body);
+  var expectedDate = req.body.time.trim();
+  expectedDate = new Date(expectedDate);
+  expectedDate = expectedDate.getTime();
+  const nextMonth = Date.now() + 2592000000;
+  if(expectedDate<nextMonth) {
+    return res.status(400).json({
+      success: false,
+      message: "预约时间至少提前一个月"
+    });
+  }
+  if (!validationResult.success) {
+    return res.status(400).json({
+      success: false,
+      message: validationResult.message
+    });
+  }
+  const Data = {
+    type:'帮找月嫂',
+    email:req.body.email.trim(),
+    service: req.body.service.trim(),
+    additional:req.body.additional.trim(),
+    time:req.body.time.trim()
+  };
+const newNurseRequest = new NurseRequest(Data);
+  newNurseRequest.save((err) => {
+    if (err) res.send(err);
+    return res.json({
+      success: true,
+      message: "找月嫂项目预约已提交！"
+    });
+  });
+});
+
+router.post('/nurserequest',(req, res) =>{
+  NurseRequest.find({ email: req.body.email }, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
   });

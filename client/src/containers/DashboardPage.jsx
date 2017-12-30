@@ -17,11 +17,32 @@ class DashboardPage extends React.Component {
       phone: '',
       email: '',
       wechat: '',
+      successMessage:'',
       birthday: ''
-      }
+      },
+      mopen: false,
+      topen: false
     };
+    this.toggle = this.toggle.bind(this);
   }
-
+/**
+   * Process the form.
+   *
+   * @param {object} event - the JavaScript event object
+   */
+  toggle(event) {
+    event.preventDefault();
+    if (event.target.name == "mbutton") {
+      this.setState({
+        mopen: !this.state.mopen
+      });
+    }
+    else if (event.target.name == "tbutton") {
+      this.setState({
+        topen: !this.state.topen
+      });
+    }
+  }
 
   /**
    * This method will be executed after initial rendering.
@@ -36,10 +57,15 @@ class DashboardPage extends React.Component {
 
     const email = encodeURIComponent(Auth.getUser());
     const formData = `email=${email}`;
-
-    xhr.send(formData);
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
+        const storedMessage = localStorage.getItem('successMessage');
+        if (storedMessage) {
+          this.setState({
+            successMessage: storedMessage
+          })
+          localStorage.removeItem('successMessage');
+        } 
         this.setState({
           name: xhr.response.name,
           phone: xhr.response.phone,
@@ -50,20 +76,27 @@ class DashboardPage extends React.Component {
         });
       }
     });
+    xhr.send(formData);
   }
 
   /**
    * Render the component.
    */
   render() {
-    return (<Dashboard 
+    return (
+    <Dashboard 
       name={this.state.name} 
       phone={this.state.phone}
       email={this.state.email}
       wechat={this.state.wechat}
       birthday={this.state.birthday}
       address={this.state.address}
-      />);
+      successMessage={this.state.successMessage}
+      toggle={this.toggle}
+      mopen={this.state.mopen}
+      topen={this.state.topen}
+      />
+    );
   }
 
 }

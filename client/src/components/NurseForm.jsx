@@ -7,36 +7,35 @@ import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup} from 'react-bootst
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const MedicineForm = ({
+const NurseForm = ({
   onSubmit,
   onChange,
   errors,
   additional,
   time,
-  changeDate
+  changeDate,
+  service
 }
 ) => (
   <Card className="container">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">请选择您需要的医疗服务</h2>
+      <h2 className="card-heading">请选择您需要的月嫂条件</h2>
       {errors && <p className="error-message">{errors}</p>}
       <div>
+      <CardText>大概价位/天（实际会有些许差别）</CardText>
         <ToggleButtonGroup type="radio" name = "service">
-            <ToggleButton value="看医生" onChange={onChange}>看医生</ToggleButton>
-            <ToggleButton value="住院" onChange={onChange}>住院</ToggleButton>
-            <ToggleButton value="化验" onChange={onChange}>化验</ToggleButton>
-            <ToggleButton value="出院" onChange={onChange}>出院</ToggleButton>
-            <ToggleButton value="B超" onChange={onChange}>B超</ToggleButton>
+            <ToggleButton value="50加币" onChange={onChange}>50加币</ToggleButton>
+            <ToggleButton value="100加币" onChange={onChange}>100加币</ToggleButton>
+            <ToggleButton value="150加币" onChange={onChange}>150加币</ToggleButton>
+            <ToggleButton value="200加币" onChange={onChange}>100加币</ToggleButton>
+            <ToggleButton value="250加币" onChange={onChange}>250加币</ToggleButton>
             <ToggleButton value="其他" onChange={onChange}>其他</ToggleButton>
           </ToggleButtonGroup>
       </div>
-      <CardText>选择服务时间（请至少提前一天预约 ）</CardText>
+      <CardText>选择服务时间（请至少提前30天预约 ）</CardText>
       <DatePicker 
       selected={time} 
       onChange={changeDate} 
-      showTimeSelect
-      timeIntervals={60}
-      dateFormat="LLL"
       />
 
       <div className="field-line">
@@ -56,10 +55,10 @@ const MedicineForm = ({
   </Card>
 );
 
-MedicineForm.propTypes = {
+NurseForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default MedicineForm;
+export default NurseForm;
 

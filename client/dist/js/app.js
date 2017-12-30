@@ -35078,7 +35078,7 @@
 	  }, {
 	    path: '/tour',
 	    component: _TourPage2.default
-	  },, {
+	  }, {
 	    path: '/nurse',
 	    component: _NursePage2.default
 	  }]
@@ -59206,18 +59206,42 @@
 	        phone: '',
 	        email: '',
 	        wechat: '',
+	        successMessage: '',
 	        birthday: ''
-	      }
+	      },
+	      mopen: false,
+	      topen: false
 	    };
+	    _this.toggle = _this.toggle.bind(_this);
 	    return _this;
 	  }
-
 	  /**
-	   * This method will be executed after initial rendering.
-	   */
+	     * Process the form.
+	     *
+	     * @param {object} event - the JavaScript event object
+	     */
 
 
 	  _createClass(DashboardPage, [{
+	    key: 'toggle',
+	    value: function toggle(event) {
+	      event.preventDefault();
+	      if (event.target.name == "mbutton") {
+	        this.setState({
+	          mopen: !this.state.mopen
+	        });
+	      } else if (event.target.name == "tbutton") {
+	        this.setState({
+	          topen: !this.state.topen
+	        });
+	      }
+	    }
+
+	    /**
+	     * This method will be executed after initial rendering.
+	     */
+
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
@@ -59231,10 +59255,15 @@
 
 	      var email = encodeURIComponent(_Auth2.default.getUser());
 	      var formData = 'email=' + email;
-
-	      xhr.send(formData);
 	      xhr.addEventListener('load', function () {
 	        if (xhr.status === 200) {
+	          var storedMessage = localStorage.getItem('successMessage');
+	          if (storedMessage) {
+	            _this2.setState({
+	              successMessage: storedMessage
+	            });
+	            localStorage.removeItem('successMessage');
+	          }
 	          _this2.setState({
 	            name: xhr.response.name,
 	            phone: xhr.response.phone,
@@ -59245,6 +59274,7 @@
 	          });
 	        }
 	      });
+	      xhr.send(formData);
 	    }
 
 	    /**
@@ -59260,7 +59290,11 @@
 	        email: this.state.email,
 	        wechat: this.state.wechat,
 	        birthday: this.state.birthday,
-	        address: this.state.address
+	        address: this.state.address,
+	        successMessage: this.state.successMessage,
+	        toggle: this.toggle,
+	        mopen: this.state.mopen,
+	        topen: this.state.topen
 	      });
 	    }
 	  }]);
@@ -59298,7 +59332,11 @@
 	      email = _ref.email,
 	      wechat = _ref.wechat,
 	      birthday = _ref.birthday,
-	      address = _ref.address;
+	      address = _ref.address,
+	      successMessage = _ref.successMessage,
+	      mopen = _ref.mopen,
+	      topen = _ref.topen,
+	      toggle = _ref.toggle;
 	  return _react2.default.createElement(
 	    _Card.Card,
 	    { className: 'container' },
@@ -59306,101 +59344,124 @@
 	      title: '\u7528\u6237\u4E3B\u9875',
 	      subtitle: '\u8FD9\u91CC\u6709\u60A8\u7684\u4E2A\u4EBA\u4FE1\u606F\u548C\u6211\u4EEC\u63D0\u4F9B\u7684\u670D\u52A1'
 	    }),
+	    successMessage && _react2.default.createElement(
+	      'p',
+	      { className: 'success-message' },
+	      successMessage
+	    ),
 	    _react2.default.createElement(
-	      _reactBootstrap.ListGroup,
-	      null,
+	      _reactBootstrap.Button,
+	      { bsSize: 'lg', onClick: toggle, name: 'mbutton' },
+	      '\u4E2A\u4EBA\u4FE1\u606F'
+	    ),
+	    _react2.default.createElement(
+	      _reactBootstrap.Panel,
+	      { collapsible: true, expanded: mopen },
 	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
+	        _reactBootstrap.ListGroup,
 	        null,
-	        '\u59D3\u540D   : ',
-	        name
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
-	        '\u7535\u8BDD   : ',
-	        phone
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
-	        'email  : ',
-	        email
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
-	        '\u5FAE\u4FE1  : ',
-	        wechat
-	      ),
-	      birthday && _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
-	        '\u4EA7\u65F6  : ',
-	        birthday
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
-	        '\u5730\u5740  : ',
-	        address
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u59D3\u540D   : ',
+	          name
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u7535\u8BDD   : ',
+	          phone
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          'email  : ',
+	          email
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u5FAE\u4FE1  : ',
+	          wechat
+	        ),
+	        birthday && _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u4EA7\u65F6  : ',
+	          birthday
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u5730\u5740  : ',
+	          address
+	        )
 	      )
 	    ),
 	    _react2.default.createElement(
-	      _reactBootstrap.ListGroup,
-	      { style: { color: 'blue' } },
+	      _reactBootstrap.Button,
+	      { bsSize: 'lg', onClick: toggle, name: 'tbutton' },
+	      '\u7533\u8BF7\u670D\u52A1'
+	    ),
+	    _react2.default.createElement(
+	      _reactBootstrap.Panel,
+	      { collapsible: true, expanded: topen },
 	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
+	        _reactBootstrap.ListGroup,
+	        { style: { color: 'blue' } },
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/medicine' },
-	          '\u533B\u7597\u63A5\u9001'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/medicine' },
+	            '\u533B\u7597\u63A5\u9001'
+	          )
+	        ),
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/food' },
-	          '\u9910\u996E\u8BA2\u5355\uFF08\u672A\u5B8C\u6210\uFF09'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/food' },
+	            '\u9910\u996E\u8BA2\u5355\uFF08\u672A\u5B8C\u6210\uFF09'
+	          )
+	        ),
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/house' },
-	          '\u4F4F\u623F\u7EF4\u4FEE'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/house' },
+	            '\u4F4F\u623F\u7EF4\u4FEE'
+	          )
+	        ),
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/tour' },
-	          '\u51FA\u884C\u63A5\u9001'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/tour' },
+	            '\u51FA\u884C\u63A5\u9001'
+	          )
+	        ),
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/certificate' },
-	          '\u529E\u7406\u8BC1\u4EF6\uFF08\u672A\u5B8C\u6210\uFF09'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.ListGroupItem,
-	        null,
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/certificate' },
+	            '\u529E\u7406\u8BC1\u4EF6\uFF08\u672A\u5B8C\u6210\uFF09'
+	          )
+	        ),
 	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/nurse' },
-	          '\u627E\u6708\u5AC2\uFF08\u672A\u5B8C\u6210\uFF09'
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/nurse' },
+	            '\u627E\u6708\u5AC2'
+	          )
 	        )
 	      )
 	    ),
@@ -59512,7 +59573,7 @@
 	      xhr.addEventListener('load', function () {
 	        if (xhr.status === 200) {
 	          // success
-
+	          localStorage.setItem('successMessage', xhr.response.message);
 	          // change the component-container state
 	          _this2.setState({
 	            errors: {}
@@ -62096,10 +62157,9 @@
 	      xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
 	      xhr.responseType = 'json';
 	      xhr.addEventListener('load', function () {
-	        console.log(xhr);
 	        if (xhr.status === 200) {
 	          // success
-
+	          localStorage.setItem('successMessage', xhr.response.message);
 	          // change the component-container state
 	          _this2.setState({
 	            errors: ''
@@ -62297,15 +62357,14 @@
 	    _react2.default.createElement(
 	      'h4',
 	      null,
-	      '\u7740\u6025\u7684\u4E8B\u513F\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5343\u4E07\u4E0D\u8981\u53D1\u5FAE\u4FE1\uFF0C\u803D\u8BEF\u5927\u4E8B\u513F '
+	      '\u6025\u4E8B\u8BF7\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5FAE\u4FE1\u6709\u65F6\u65E0\u6CD5\u53CA\u65F6\u56DE\u590D '
 	    )
 	  );
 	};
 
 	MedicineForm.propTypes = {
 	  onSubmit: _react.PropTypes.func.isRequired,
-	  onChange: _react.PropTypes.func.isRequired,
-	  errors: _react.PropTypes.object.isRequired
+	  onChange: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = MedicineForm;
@@ -85671,7 +85730,7 @@
 	      xhr.addEventListener('load', function () {
 	        if (xhr.status === 200) {
 	          // success
-
+	          localStorage.setItem('successMessage', xhr.response.message);
 	          // change the component-container state
 	          _this2.setState({
 	            errors: ''
@@ -85834,15 +85893,14 @@
 	    _react2.default.createElement(
 	      'h4',
 	      null,
-	      '\u7740\u6025\u7684\u4E8B\u513F\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5343\u4E07\u4E0D\u8981\u53D1\u5FAE\u4FE1\uFF0C\u803D\u8BEF\u5927\u4E8B\u513F '
+	      '\u6025\u4E8B\u8BF7\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5FAE\u4FE1\u6709\u65F6\u65E0\u6CD5\u53CA\u65F6\u56DE\u590D '
 	    )
 	  );
 	};
 
 	HouseForm.propTypes = {
 	  onSubmit: _react.PropTypes.func.isRequired,
-	  onChange: _react.PropTypes.func.isRequired,
-	  errors: _react.PropTypes.object.isRequired
+	  onChange: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = HouseForm;
@@ -85948,7 +86006,7 @@
 	      xhr.addEventListener('load', function () {
 	        if (xhr.status === 200) {
 	          // success
-
+	          localStorage.setItem('successMessage', xhr.response.message);
 	          // change the component-container state
 	          _this2.setState({
 	            errors: ''
@@ -86218,7 +86276,7 @@
 	          value: people,
 	          style: { width: 30 }
 	        }),
-	        '\u4EBA'
+	        '\u4EBA\u540C\u884C'
 	      ),
 	      _react2.default.createElement(
 	        'div',
@@ -86239,15 +86297,14 @@
 	    _react2.default.createElement(
 	      'h4',
 	      null,
-	      '\u7740\u6025\u7684\u4E8B\u513F\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5343\u4E07\u4E0D\u8981\u53D1\u5FAE\u4FE1\uFF0C\u803D\u8BEF\u5927\u4E8B\u513F '
+	      '\u6025\u4E8B\u8BF7\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5FAE\u4FE1\u6709\u65F6\u65E0\u6CD5\u53CA\u65F6\u56DE\u590D '
 	    )
 	  );
 	};
 
 	TourForm.propTypes = {
 	  onSubmit: _react.PropTypes.func.isRequired,
-	  onChange: _react.PropTypes.func.isRequired,
-	  errors: _react.PropTypes.object.isRequired
+	  onChange: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = TourForm;
@@ -86268,13 +86325,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _MedicineForm = __webpack_require__(637);
+	var _NurseForm = __webpack_require__(783);
 
-	var _MedicineForm2 = _interopRequireDefault(_MedicineForm);
+	var _NurseForm2 = _interopRequireDefault(_NurseForm);
 
 	var _Auth = __webpack_require__(397);
 
 	var _Auth2 = _interopRequireDefault(_Auth);
+
+	var _moment = __webpack_require__(640);
+
+	var _moment2 = _interopRequireDefault(_moment);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86284,28 +86345,29 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var MedicinePage = function (_React$Component) {
-	  _inherits(MedicinePage, _React$Component);
+	var NursePage = function (_React$Component) {
+	  _inherits(NursePage, _React$Component);
 
 	  /**
 	   * Class constructor.
 	   */
-	  function MedicinePage(props, context) {
-	    _classCallCheck(this, MedicinePage);
+	  function NursePage(props, context) {
+	    _classCallCheck(this, NursePage);
 
 	    // set the initial component state
-	    var _this = _possibleConstructorReturn(this, (MedicinePage.__proto__ || Object.getPrototypeOf(MedicinePage)).call(this, props, context));
+	    var _this = _possibleConstructorReturn(this, (NursePage.__proto__ || Object.getPrototypeOf(NursePage)).call(this, props, context));
 
 	    _this.state = {
-	      errors: {},
+	      errors: '',
 	      email: '',
 	      service: '',
 	      additional: '',
-	      time: ''
+	      time: (0, _moment2.default)()
 	    };
 
 	    _this.processForm = _this.processForm.bind(_this);
 	    _this.changeState = _this.changeState.bind(_this);
+	    _this.changeDate = _this.changeDate.bind(_this);
 	    return _this;
 	  }
 
@@ -86316,7 +86378,7 @@
 	   */
 
 
-	  _createClass(MedicinePage, [{
+	  _createClass(NursePage, [{
 	    key: 'processForm',
 	    value: function processForm(event) {
 	      var _this2 = this;
@@ -86333,7 +86395,7 @@
 
 	      // create an AJAX request
 	      var xhr = new XMLHttpRequest();
-	      xhr.open('post', '/api/medicine');
+	      xhr.open('post', '/api/nurse');
 	      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	      // set the authorization HTTP header
 	      xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
@@ -86342,20 +86404,17 @@
 	        console.log(xhr);
 	        if (xhr.status === 200) {
 	          // success
-
+	          localStorage.setItem('successMessage', xhr.response.message);
 	          // change the component-container state
 	          _this2.setState({
-	            errors: {}
+	            errors: ''
 	          });
 
 	          // make a redirect
 	          _this2.context.router.replace('/');
 	        } else {
 	          // failure
-
-	          var errors = xhr.response.errors ? xhr.response.errors : {};
-	          errors.summary = xhr.response.message;
-
+	          var errors = xhr.response.message;
 	          _this2.setState({
 	            errors: errors
 	          });
@@ -86366,21 +86425,22 @@
 	  }, {
 	    key: 'changeState',
 	    value: function changeState(event) {
-	      if (event.target.type == "radio") {
+	      if (event.target.name == 'service') {
 	        this.setState({
 	          service: event.target.value
 	        });
-	      } else {
-	        if (event.target.name == 'additional') {
-	          this.setState({
-	            additional: event.target.value
-	          });
-	        } else if (event.target.name == 'time') {
-	          this.setState({
-	            time: event.target.value
-	          });
-	        }
+	      } else if (event.target.name == 'additional') {
+	        this.setState({
+	          additional: event.target.value
+	        });
 	      }
+	    }
+	  }, {
+	    key: 'changeDate',
+	    value: function changeDate(date) {
+	      this.setState({
+	        time: date
+	      });
 	    }
 
 	    /**
@@ -86390,24 +86450,26 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_MedicineForm2.default, {
+	      return _react2.default.createElement(_NurseForm2.default, {
 	        onSubmit: this.processForm,
 	        onChange: this.changeState,
 	        errors: this.state.errors,
 	        additional: this.state.additional,
-	        time: this.state.time
+	        changeDate: this.changeDate,
+	        time: this.state.time,
+	        service: this.state.service
 	      });
 	    }
 	  }]);
 
-	  return MedicinePage;
+	  return NursePage;
 	}(_react2.default.Component);
 
-	MedicinePage.contextTypes = {
+	NursePage.contextTypes = {
 	  router: _react.PropTypes.object.isRequired
 	};
 
-	exports.default = MedicinePage;
+	exports.default = NursePage;
 
 /***/ }),
 /* 779 */
@@ -86439,6 +86501,10 @@
 
 	var _TourView2 = _interopRequireDefault(_TourView);
 
+	var _NurseView = __webpack_require__(784);
+
+	var _NurseView2 = _interopRequireDefault(_NurseView);
+
 	var _reactBootstrap = __webpack_require__(398);
 
 	var _Auth = __webpack_require__(397);
@@ -86465,7 +86531,11 @@
 				mdata: [],
 				hdata: [],
 				tdata: [],
-				mopen: false
+				ndata: [],
+				mopen: false,
+				hopen: false,
+				topen: false,
+				nopen: false
 			};
 			return _this;
 		}
@@ -86511,7 +86581,7 @@
 				});
 				//get tourrequest
 				var txhr = new XMLHttpRequest();
-				txhr.open('post', '/api/TourRequest');
+				txhr.open('post', '/api/tourrequest');
 				txhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 				// set the authorization HTTP header
 				txhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
@@ -86521,6 +86591,22 @@
 					if (txhr.status === 200) {
 						_this2.setState({
 							tdata: txhr.response
+						});
+					}
+				});
+
+				//get nurserequest
+				var nxhr = new XMLHttpRequest();
+				nxhr.open('post', '/api/nurserequest');
+				nxhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				// set the authorization HTTP header
+				nxhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+				nxhr.responseType = 'json';
+				nxhr.send(formData);
+				nxhr.addEventListener('load', function () {
+					if (nxhr.status === 200) {
+						_this2.setState({
+							ndata: nxhr.response
 						});
 					}
 				});
@@ -86558,7 +86644,7 @@
 						_reactBootstrap.Panel,
 						{ collapsible: true, expanded: this.state.hopen },
 						this.state.hdata.length && this.state.hdata.map(function (Data) {
-							return _react2.default.createElement(_MedicineView2.default, _extends({ key: Data._id }, Data));
+							return _react2.default.createElement(_HouseView2.default, _extends({ key: Data._id }, Data));
 						})
 					),
 					_react2.default.createElement(
@@ -86572,7 +86658,21 @@
 						_reactBootstrap.Panel,
 						{ collapsible: true, expanded: this.state.topen },
 						this.state.tdata.length && this.state.tdata.map(function (Data) {
-							return _react2.default.createElement(_MedicineView2.default, _extends({ key: Data._id }, Data));
+							return _react2.default.createElement(_TourView2.default, _extends({ key: Data._id }, Data));
+						})
+					),
+					_react2.default.createElement(
+						_reactBootstrap.Button,
+						{ bsSize: 'lg', onClick: function onClick() {
+								return _this3.setState({ nopen: !_this3.state.nopen });
+							} },
+						'\u5E2E\u627E\u6708\u5AC2'
+					),
+					_react2.default.createElement(
+						_reactBootstrap.Panel,
+						{ collapsible: true, expanded: this.state.nopen },
+						this.state.ndata.length && this.state.ndata.map(function (Data) {
+							return _react2.default.createElement(_NurseView2.default, _extends({ key: Data._id }, Data));
 						})
 					)
 				);
@@ -86823,6 +86923,225 @@
 	}(_react2.default.Component);
 
 	exports.default = TourView;
+
+/***/ }),
+/* 783 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(338);
+
+	var _Card = __webpack_require__(569);
+
+	var _RaisedButton = __webpack_require__(623);
+
+	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+	var _TextField = __webpack_require__(625);
+
+	var _TextField2 = _interopRequireDefault(_TextField);
+
+	var _reactBootstrap = __webpack_require__(398);
+
+	var _reactDatepicker = __webpack_require__(638);
+
+	var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
+
+	__webpack_require__(767);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var NurseForm = function NurseForm(_ref) {
+	  var onSubmit = _ref.onSubmit,
+	      onChange = _ref.onChange,
+	      errors = _ref.errors,
+	      additional = _ref.additional,
+	      time = _ref.time,
+	      changeDate = _ref.changeDate,
+	      service = _ref.service;
+	  return _react2.default.createElement(
+	    _Card.Card,
+	    { className: 'container' },
+	    _react2.default.createElement(
+	      'form',
+	      { action: '/', onSubmit: onSubmit },
+	      _react2.default.createElement(
+	        'h2',
+	        { className: 'card-heading' },
+	        '\u8BF7\u9009\u62E9\u60A8\u9700\u8981\u7684\u6708\u5AC2\u6761\u4EF6'
+	      ),
+	      errors && _react2.default.createElement(
+	        'p',
+	        { className: 'error-message' },
+	        errors
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          _Card.CardText,
+	          null,
+	          '\u5927\u6982\u4EF7\u4F4D/\u5929\uFF08\u5B9E\u9645\u4F1A\u6709\u4E9B\u8BB8\u5DEE\u522B\uFF09'
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ToggleButtonGroup,
+	          { type: 'radio', name: 'service' },
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '50\u52A0\u5E01', onChange: onChange },
+	            '50\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '100\u52A0\u5E01', onChange: onChange },
+	            '100\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '150\u52A0\u5E01', onChange: onChange },
+	            '150\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '200\u52A0\u5E01', onChange: onChange },
+	            '100\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '250\u52A0\u5E01', onChange: onChange },
+	            '250\u52A0\u5E01'
+	          ),
+	          _react2.default.createElement(
+	            _reactBootstrap.ToggleButton,
+	            { value: '\u5176\u4ED6', onChange: onChange },
+	            '\u5176\u4ED6'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _Card.CardText,
+	        null,
+	        '\u9009\u62E9\u670D\u52A1\u65F6\u95F4\uFF08\u8BF7\u81F3\u5C11\u63D0\u524D30\u5929\u9884\u7EA6 \uFF09'
+	      ),
+	      _react2.default.createElement(_reactDatepicker2.default, {
+	        selected: time,
+	        onChange: changeDate
+	      }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'field-line' },
+	        _react2.default.createElement(_TextField2.default, {
+	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
+	          name: 'additional',
+	          onChange: onChange,
+	          value: additional
+	        })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'button-line' },
+	        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: '\u63D0\u4EA4', primary: true })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'h4',
+	      null,
+	      '\u6025\u4E8B\u8BF7\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5FAE\u4FE1\u6709\u65F6\u65E0\u6CD5\u53CA\u65F6\u56DE\u590D '
+	    )
+	  );
+	};
+
+	NurseForm.propTypes = {
+	  onSubmit: _react.PropTypes.func.isRequired,
+	  onChange: _react.PropTypes.func.isRequired
+	};
+
+	exports.default = NurseForm;
+
+/***/ }),
+/* 784 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(338);
+
+	var _reactBootstrap = __webpack_require__(398);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var NurseView = function (_React$Component) {
+	  _inherits(NurseView, _React$Component);
+
+	  function NurseView() {
+	    _classCallCheck(this, NurseView);
+
+	    return _possibleConstructorReturn(this, (NurseView.__proto__ || Object.getPrototypeOf(NurseView)).apply(this, arguments));
+	  }
+
+	  _createClass(NurseView, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _reactBootstrap.ListGroup,
+	        null,
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u9879\u76EE   : ',
+	          this.props.type
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u4EF7\u4F4D   : ',
+	          this.props.service
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u5907\u6CE8   : ',
+	          this.props.additional
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u65F6\u95F4  : ',
+	          this.props.time
+	        )
+	      );
+	    }
+	  }]);
+
+	  return NurseView;
+	}(_react2.default.Component);
+
+	exports.default = NurseView;
 
 /***/ })
 /******/ ]);

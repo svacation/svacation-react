@@ -42,14 +42,13 @@ const HouseForm = ({
 
       <CardText>申请提交后我们会尽快处理 </CardText>
     </form>
-    <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
+    <h4>急事请打电话 XXX-XXXX-XXXX 微信有时无法及时回复 </h4>
   </Card>
 );
 
 HouseForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 };
 
 export default HouseForm;

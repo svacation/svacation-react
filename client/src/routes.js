@@ -65,8 +65,6 @@ const routes = {
       path: '/tour',
       component: TourPage
     },
-    ,
-
     {
       path: '/nurse',
       component: NursePage

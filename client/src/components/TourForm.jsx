@@ -74,7 +74,7 @@ const TourForm = ({
           value={people}
           style = {{width: 30}}
         />
-        人
+        人同行
       </div>
       
       <div className="field-line">
@@ -90,14 +90,13 @@ const TourForm = ({
         <RaisedButton type="submit" label="提交" primary />
       </div>
     </form>
-    <h4>着急的事儿打电话 XXX-XXXX-XXXX 千万不要发微信，耽误大事儿 </h4>
+    <h4>急事请打电话 XXX-XXXX-XXXX 微信有时无法及时回复 </h4>
   </Card>
 );
 
 TourForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 };
 
 export default TourForm;
