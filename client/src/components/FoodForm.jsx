@@ -5,53 +5,114 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup} from 'react-bootstrap';
 
-const MedicineForm = ({
+const FoodForm = ({
   onSubmit,
   onChange,
+  changeDate,
   errors,
   additional,
   time,
+  startOpen,
+  cancelOpen,
+  haveMeal,
+  item,
+  shoppingList
 }) => (
   <Card className="container">
-    <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">请选择您需要的医疗服务</h2>
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
-  <div>
-    <ToggleButtonGroup type="radio" name = "service">
-        <ToggleButton value="看医生" onChange={onChange}>看医生</ToggleButton>
-        <ToggleButton value="住院" onChange={onChange}>住院</ToggleButton>
-        <ToggleButton value="化验" onChange={onChange}>化验</ToggleButton>
-        <ToggleButton value="出院" onChange={onChange}>出院</ToggleButton>
-        <ToggleButton value="B超" onChange={onChange}>B超</ToggleButton>
-      </ToggleButtonGroup>
-  </div>
-      
-
-
-      <div className="field-line">
-        <TextField
-          floatingLabelText="备注 (没有可不填)"
-          name="additional"
-          onChange={onChange}
-          value={additional}
-        />
-      </div>
-
-      <div className="button-line">
-        <RaisedButton type="submit" label="提交" primary />
-      </div>
-
-      <CardText>我们会根据您的申请时间尽快处理 </CardText>
+  {errors && <p className="error-message">{errors}</p>}
+    <form action="/" onSubmit={onSubmit} name="startForm"> 
+      {!haveMeal&&<Button bsSize="lg" onClick={toggle} name="startButton">
+          申请送餐服务（送餐申请提交后将持续直到取消送餐服务）
+        </Button>}
+       <Panel collapsible expanded={startOpen}>
+			<CardText>选择送餐开始日期（请至少提前1天预约 ）</CardText>
+	        <DatePicker selected={time} onChange={changeDate}/>
+	        <ToggleButtonGroup type="radio" name = "detailedTime">
+		        <ToggleButton value="8" onChange={onChange}>早</ToggleButton>
+		        <ToggleButton value="12" onChange={onChange}>中</ToggleButton>
+		        <ToggleButton value="18" onChange={onChange}>晚</ToggleButton>
+      		</ToggleButtonGroup>
+      		<div className="button-line">
+	        	<RaisedButton type="submit" label="提交" primary><Link to={'/'}/></RaisedButton>
+	      	</div>
+        </Panel>
     </form>
-    <Button bsSize="large"><Link to={'/medicalrequest'}>查看已预定的服务</Link></Button>
+    <form action="/" onSubmit={onSubmit} name="cancelForm">
+      {haveMeal&&<Button bsSize="lg" onClick={toggle} name="cancelButton">
+          取消送餐服务
+        </Button>}
+        <Panel collapsible expanded={cancelOpen}>
+			<CardText>确定取消订餐服务？</CardText>
+	        <div className="button-line">
+	        	<RaisedButton type="submit" label="提交" primary><Link to={'/'}/></RaisedButton>
+	      	</div>
+        </Panel>
+      </form>
+
+      <form action="/" onSubmit={onSubmit} name="shoppingForm">
+      	<Button bsSize="lg" onClick={toggle} name="shoppingButton">
+          购买食材
+        </Button>
+        <Panel collapsible expanded={shoppingOpen}>
+	      <CardText>公司每周X将进行一次采购，会将您这周申请的购买的食材在送餐的同时送至您的府上</CardText>
+      	  <FormGroup controlId="formControlsSelect" >
+			  <ControlLabel>请选择您想购买的食材</ControlLabel>
+		      <FormControl componentClass="select" placeholder="select" name = "item" onChange={onChange}>
+		      <option></option>
+		        <option>番茄</option>
+		        <option>土豆</option>
+		      </FormControl>
+		  </FormGroup>
+		  <CardText>如果上面没有您需要的食材，请在下面的框中填写</CardText>
+		  <div className="field-line">
+		        <TextField
+		          floatingLabelText="其他食材"
+		          name="item"
+		          onChange={onChange}
+		          value={item}
+		        />
+	      </div>
+	      <FormGroup controlId="formControlsSelect" >
+			  <ControlLabel>请选择您想购买食材的数量</ControlLabel>
+		      <FormControl componentClass="select" placeholder="select" name = "numberOfItem" onChange={onChange} style={{width:30}} >
+		      <option>1</option>
+		        <option>2</option>
+		        <option>3</option>
+		      </FormControl>
+		  </FormGroup>
+	      <Button bsSize="lg" onClick={additem} name="additem">
+	          将食材加入您的购物清单
+	      </Button>
+	      <div className="field-line">
+	        <TextField
+	          floatingLabelText="购物清单"
+	          name="additional"
+	          onChange={onChange}
+	          value={additional}
+	        />
+	      </div>
+	      <div className="field-line">
+	        <TextField
+	          floatingLabelText="特殊要求"
+	          name="additional"
+	          onChange={onChange}
+	          value={additional}
+	        />
+	      </div>
+	      <CardText>请确认选取所需食材后再提交</CardText>
+	      <div className="button-line">
+	        <RaisedButton type="submit" label="提交" primary />
+	      </div>
+	    </Panel>  
+    </form>
+    <h4>急事请打电话 XXX-XXXX-XXXX 微信有时无法及时回复 </h4>
   </Card>
 );
 
-MedicineForm.propTypes = {
+FoodForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
 };
 
-export default MedicineForm;
+export default FoodForm;
 
