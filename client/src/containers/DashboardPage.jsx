@@ -20,8 +20,8 @@ class DashboardPage extends React.Component {
       successMessage:'',
       birthday: ''
       },
-      mopen: false,
-      topen: false
+      profileOpen: false,
+      serviceOpen: false
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -32,14 +32,14 @@ class DashboardPage extends React.Component {
    */
   toggle(event) {
     event.preventDefault();
-    if (event.target.name == "mbutton") {
+    if (event.target.name == "profileButton") {
       this.setState({
-        mopen: !this.state.mopen
+        profileOpen: !this.state.profileOpen
       });
     }
-    else if (event.target.name == "tbutton") {
+    else if (event.target.name == "serviceButton") {
       this.setState({
-        topen: !this.state.topen
+        serviceOpen: !this.state.serviceOpen
       });
     }
   }
@@ -93,8 +93,8 @@ class DashboardPage extends React.Component {
       address={this.state.address}
       successMessage={this.state.successMessage}
       toggle={this.toggle}
-      mopen={this.state.mopen}
-      topen={this.state.topen}
+      profileOpen={this.state.profileOpen}
+      serviceOpen={this.state.serviceOpen}
       />
     );
   }

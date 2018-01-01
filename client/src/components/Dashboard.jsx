@@ -11,8 +11,8 @@ const Dashboard = ({
   birthday,
   address,
   successMessage,
-  mopen,
-  topen,
+  profileOpen,
+  serviceOpen,
   toggle
   
 }) => (
@@ -22,10 +22,10 @@ const Dashboard = ({
       subtitle="这里有您的个人信息和我们提供的服务"
     />
     {successMessage && <p className="success-message">{successMessage}</p>}
-    <Button bsSize="lg" onClick={toggle} name="mbutton">
+    <Button bsSize="lg" onClick={toggle} name="profileButton">
           个人信息
         </Button>
-				<Panel collapsible expanded={mopen}>
+				<Panel collapsible expanded={profileOpen}>
           <ListGroup>
               <ListGroupItem>姓名   : {name}</ListGroupItem>
               <ListGroupItem>电话   : {phone}</ListGroupItem>
@@ -36,10 +36,10 @@ const Dashboard = ({
           </ListGroup>
         </Panel>
 
-        <Button bsSize="lg" onClick={toggle} name="tbutton">
+        <Button bsSize="lg" onClick={toggle} name="serviceButton">
           申请服务
         </Button>
-        <Panel collapsible expanded={topen}>
+        <Panel collapsible expanded={serviceOpen}>
             <ListGroup style={{color: 'blue' }}>
               <ListGroupItem><Link to={'/medicine'}>医疗接送</Link></ListGroupItem>
               <ListGroupItem><Link to={'/food'}>餐饮订单（未完成）</Link></ListGroupItem>
