@@ -14,7 +14,7 @@ export default class TourView extends React.Component {
             <ListGroupItem>出发时间  : {this.props.time}</ListGroupItem>
             <ListGroupItem>目的地   : {this.props.destination}</ListGroupItem>
             <ListGroupItem>人数  : {this.props.people}</ListGroupItem>
-            <ListGroupItem>备注   : {this.props.additional}</ListGroupItem>
+            <ListGroupItem>其他服务或特殊要求   : {this.props.additional}</ListGroupItem>
           </ListGroup>
     );
   }

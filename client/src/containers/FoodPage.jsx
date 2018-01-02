@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import FoodForm from '../components/FoodForm.jsx';
 import Auth from '../modules/Auth';
+import moment from 'moment';
 
 
 class FoodPage extends React.Component {
@@ -17,24 +18,24 @@ class FoodPage extends React.Component {
       email: '',
       service: '',
       additional: '',
-      startOpen:false,
+      startOpen : false,
       cancelOpen: false,
       shoppingOpen: false,
       detailedTime:'',
-      time:'',
+      time:moment(),
       detailedTime:'',
-      additional:'',
-      formData:'',
       shoppingList:[],
       item:'',
-      numberOfItem:''
+      numberOfItem:'',
+      haveMeal:'',
+      shoppingListString:''
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeState = this.changeState.bind(this);
     this.changeDate = this .changeDate.bind(this);
-    this.cancelConfirm = this.cancelConfirm.bind(this);
-    this.createAJAX = this.createAJAX.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.addItem = this.addItem.bind(this);
   }
 
   /**
@@ -46,27 +47,48 @@ class FoodPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
     const email = encodeURIComponent(Auth.getUser());
+    let formData;
+    let url;
     if (event.target.name == "startForm"){
       // create a string for an HTTP body message
       const time = encodeURIComponent(this.state.time);
       const detailedTime = encodeURIComponent(this.state.detailedTime);
-      const additional = encodeURIComponent(this.state.additional);
-      this.setState({
-        formData:`email=${email}&detailedTime=${detailedTime}&time=${time}&additional=${additional}`
-      });
-      createAJAX('/api/addMeal');
+      formData = `email=${email}&detailedTime=${detailedTime}&time=${time}`;
+      url = '/api/addMeal';
     } else if (event.target.name == "cancelForm") {
-      this.setState({
-        formData:`email=${email}`
-      });
-      createAJAX('/api/cancelMeal');
+      formData = `email=${email}`;
+      url = '/api/cancelMeal';
     } else if (event.target.name == "shoppingForm") {
       const shoppingList = encodeURIComponent(this.state.shoppingList);
-      this.setState({
-        formData:`email=${email}&shoppingList=${shoppingList}`
-      });
-      createAJAX('/api/shopping');
+      const additional = encodeURIComponent(this.state.additional);
+      formData = `email=${email}&shoppingList=${shoppingList}&additional=${additional}`;
+      url = '/api/shopping';
     }
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', url);
+     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        // success
+        localStorage.setItem('successMessage', xhr.response.message);
+        // change the component-container state
+        this.setState({
+          errors: ''
+        });
+        // make a redirect
+        this.context.router.replace('/');
+      } else {
+        // failure
+        const errors = xhr.response.message;
+        this.setState({
+          errors
+        });
+      }
+    });
+    xhr.send(formData);
   }
 
   changeState(event) {
@@ -78,10 +100,6 @@ class FoodPage extends React.Component {
         if(event.target.name == "additional"){   
           this.setState({
             additional : event.target.value
-          });
-        } else if(event.target.name == "item"){   
-          this.setState({
-            item : event.target.value
           });
         } else if(event.target.name == "item"){   
           this.setState({
@@ -119,39 +137,56 @@ class FoodPage extends React.Component {
   }
 
   addItem(event) {
-    const newShoppingList = this.state.shoppingList.slice();
-    newShoppingList.add({item:this.state.item,numberOfItem:this.state.numberOfItem});
-    this.setState({
-      shoppingList : newShopplist
-    });
+    if (this.state.numberOfItem == "") {
+      this.setState({
+        errors: "请选择食材数量"
+      });
+      return;
+    } else if (this.state.item == "") {
+      this.setState({
+        errors: "请选择食材"
+      });
+      return;
+    } else {
+      let newShoppingList = this.state.shoppingList;
+      let items = "";
+      newShoppingList.push({item:this.state.item,numberOfItem:this.state.numberOfItem});
+      for(var i = 0; i < newShoppingList.length; i++) {
+        items = items + newShoppingList[i].item + " " + newShoppingList[i].numberOfItem + " ";
+      }
+      this.setState({
+        shoppingList : newShoppingList,
+        shoppingListString : items
+      });
+      console.log(this.state);
+    }
   }
 
-  createAJAX(url) {
+  componentDidMount() {
+    const email = encodeURIComponent(Auth.getUser());
+    //find if there is meal entry for this user
+    const formData = `email=${email}`;
     const xhr = new XMLHttpRequest();
-      xhr.open('post', url);
+      xhr.open('post', 'api/checkMeal');
        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       // set the authorization HTTP header
       xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
       xhr.responseType = 'json';
       xhr.addEventListener('load', () => {
         if (xhr.status === 200) {
-          // success
-          localStorage.setItem('successMessage', xhr.response.message);
-          // change the component-container state
-          this.setState({
-            errors: ''
-          });
-          // make a redirect
-          this.context.router.replace('/');
+          if (xhr.response != "") {
+            this.setState({haveMeal: true});
+          } else {
+            this.setState({haveMeal: false});
+          }
         } else {
           // failure
-          const errors = xhr.response.message;
           this.setState({
-            errors
+            errors : "fail to retrive meal"
           });
         }
       });
-      xhr.send(this.state.formData);
+      xhr.send(formData)
   }
   /**
    * Render the component.
@@ -163,15 +198,18 @@ class FoodPage extends React.Component {
         onChange={this.changeState}
         errors={this.state.errors}
         additional={this.state.additional}
-        cancelConfirm={this.cancelConfirm}
         changeDate={this.changeDate}
         toggle = {this.toggle}
         time = {this.state.time}
         startOpen = {this.state.startOpen}
         cancelOpen = {this.state.cancelOpen}
-        haveMeal = {this.haveMeal}
+        shoppingOpen = {this.state.shoppingOpen}
+        haveMeal = {this.state.haveMeal}
         item = {this.state.item}
+        numberOfItem = {this.state.numberOfItem}
         shoppingList={this.state.shoppingList}
+        addItem={this.addItem}
+        shoppingListString={this.state.shoppingListString}
       />
     );
   }

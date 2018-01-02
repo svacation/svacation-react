@@ -3,6 +3,7 @@ import HouseView from '../components/HouseView.jsx';
 import MedicineView from '../components/MedicineView.jsx';
 import TourView from '../components/TourView.jsx';
 import NurseView from '../components/NurseView.jsx';
+import ShoppingView from '../components/ShoppingView.jsx';
 import {ListGroup,ListGroupItem,Button,Panel,Card} from 'react-bootstrap';
 import Auth from '../modules/Auth';
 
@@ -15,10 +16,12 @@ class CheckRequest extends React.Component {
 				hdata:[],
 				tdata:[],
 				ndata:[],
+				sdata:[],
 				mopen: false,
 				hopen: false,
 				topen: false,
-				nopen:false
+				nopen:false,
+				sopen:false
 			 };
   	}
 	componentDidMount() {
@@ -87,34 +90,55 @@ class CheckRequest extends React.Component {
 				});
 			}
 		});
+
+		//get shoppingrequest
+		const sxhr = new XMLHttpRequest();
+		sxhr.open('post','/api/shoppingrequest');
+		sxhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		// set the authorization HTTP header
+		sxhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+		sxhr.responseType = 'json';
+		sxhr.send(formData);
+		sxhr.addEventListener('load', () => {
+			console.log(sxhr);
+			if (sxhr.status === 200) {
+				this.setState({
+						sdata: sxhr.response,
+				});
+			}
+		});
   }
 
   render() {
+		const styles = {margin:"auto", width:"50%",
+		display:"block"}
     return (
       <div>
-		{this.state.mdata.length && <Button bsSize="lg" style = {{margin:"auto",
-			display:"block"}} onClick={() => this.setState({ mopen: !this.state.mopen })}>
+		{this.state.mdata.length && <Button bsSize="lg" style={styles} onClick={() => this.setState({ mopen: !this.state.mopen })}>
           医疗接送
         </Button>}
 				<Panel collapsible expanded={this.state.mopen}>
 					{this.state.mdata.length && this.state.mdata.map(Data => <MedicineView key={Data._id} {...Data} />)}
 				</Panel>
-		{this.state.hdata.length && <Button bsSize="lg" style = {{margin:"auto",
-			display:"block"}} onClick={() => this.setState({ hopen: !this.state.hopen })}>
+		{this.state.sdata.length && <Button bsSize="lg" style={styles} onClick={() => this.setState({ sopen: !this.state.sopen })}>
+          购买食材
+        </Button>}
+				<Panel collapsible expanded={this.state.sopen}>
+					{this.state.sdata.length && this.state.sdata.map(Data => <ShoppingView key={Data._id} {...Data} />)}
+				</Panel>
+		{this.state.hdata.length && <Button bsSize="lg" style = {styles} onClick={() => this.setState({ hopen: !this.state.hopen })}>
 				住房维修	
         </Button>}
 				<Panel collapsible expanded={this.state.hopen}>
 					{this.state.hdata.length && this.state.hdata.map(Data => <HouseView key={Data._id} {...Data} />)}
 				</Panel>
-		{this.state.tdata.length && <Button bsSize="lg" style = {{margin:"auto",
-			display:"block"}} onClick={() => this.setState({ topen: !this.state.topen })}>
+		{this.state.tdata.length && <Button bsSize="lg" style = {styles} onClick={() => this.setState({ topen: !this.state.topen })}>
 				出行接送
         </Button>}
 				<Panel collapsible expanded={this.state.topen}>
 					{this.state.tdata.length && this.state.tdata.map(Data => <TourView key={Data._id} {...Data} />)}
 				</Panel>
-		{this.state.ndata.length && <Button bsSize="lg" style = {{margin:"auto",
-			display:"block"}} onClick={() => this.setState({ nopen: !this.state.nopen })}>
+		{this.state.ndata.length && <Button bsSize="lg" style = {styles} onClick={() => this.setState({ nopen: !this.state.nopen })}>
 				帮找月嫂
         </Button>}
 				<Panel collapsible expanded={this.state.nopen}>

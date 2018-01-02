@@ -25,7 +25,8 @@ const TourForm = ({
       <h2 className="card-heading">请选择您需要的接送服务</h2>
       {errors && <p className="error-message">{errors}</p>}
   
-  <FormGroup controlId="formControlsSelect" >
+  <FormGroup controlId="formControlsSelect" style = {{margin:"auto",width:"50%",
+			display:"block"}}>
   <ControlLabel>出发地</ControlLabel>
       <FormControl componentClass="select" placeholder="select" name = "source" onChange={onChange}>
       <option></option>
@@ -52,7 +53,8 @@ const TourForm = ({
       />
 
 
-      <FormGroup controlId="formControlsSelect" >
+      <FormGroup controlId="formControlsSelect" style = {{margin:"auto",width:"50%",
+			display:"block"}}>
       <ControlLabel>目的地</ControlLabel>
       <FormControl componentClass="select" placeholder="select" name = "destination" onChange={onChange}>
       <option></option>

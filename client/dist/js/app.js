@@ -35081,6 +35081,9 @@
 	  }, {
 	    path: '/nurse',
 	    component: _NursePage2.default
+	  }, {
+	    path: '/food',
+	    component: _FoodPage2.default
 	  }]
 	};
 
@@ -59209,8 +59212,8 @@
 	        successMessage: '',
 	        birthday: ''
 	      },
-	      mopen: false,
-	      topen: false
+	      profileOpen: false,
+	      serviceOpen: false
 	    };
 	    _this.toggle = _this.toggle.bind(_this);
 	    return _this;
@@ -59226,13 +59229,13 @@
 	    key: 'toggle',
 	    value: function toggle(event) {
 	      event.preventDefault();
-	      if (event.target.name == "mbutton") {
+	      if (event.target.name == "profileButton") {
 	        this.setState({
-	          mopen: !this.state.mopen
+	          profileOpen: !this.state.profileOpen
 	        });
-	      } else if (event.target.name == "tbutton") {
+	      } else if (event.target.name == "serviceButton") {
 	        this.setState({
-	          topen: !this.state.topen
+	          serviceOpen: !this.state.serviceOpen
 	        });
 	      }
 	    }
@@ -59293,8 +59296,8 @@
 	        address: this.state.address,
 	        successMessage: this.state.successMessage,
 	        toggle: this.toggle,
-	        mopen: this.state.mopen,
-	        topen: this.state.topen
+	        profileOpen: this.state.profileOpen,
+	        serviceOpen: this.state.serviceOpen
 	      });
 	    }
 	  }]);
@@ -59334,8 +59337,8 @@
 	      birthday = _ref.birthday,
 	      address = _ref.address,
 	      successMessage = _ref.successMessage,
-	      mopen = _ref.mopen,
-	      topen = _ref.topen,
+	      profileOpen = _ref.profileOpen,
+	      serviceOpen = _ref.serviceOpen,
 	      toggle = _ref.toggle;
 	  return _react2.default.createElement(
 	    _Card.Card,
@@ -59351,12 +59354,13 @@
 	    ),
 	    _react2.default.createElement(
 	      _reactBootstrap.Button,
-	      { bsSize: 'lg', onClick: toggle, name: 'mbutton' },
+	      { bsSize: 'lg', onClick: toggle, name: 'profileButton', style: { margin: "auto", width: "50%",
+	          display: "block" } },
 	      '\u4E2A\u4EBA\u4FE1\u606F'
 	    ),
 	    _react2.default.createElement(
 	      _reactBootstrap.Panel,
-	      { collapsible: true, expanded: mopen },
+	      { collapsible: true, expanded: profileOpen },
 	      _react2.default.createElement(
 	        _reactBootstrap.ListGroup,
 	        null,
@@ -59400,12 +59404,13 @@
 	    ),
 	    _react2.default.createElement(
 	      _reactBootstrap.Button,
-	      { bsSize: 'lg', onClick: toggle, name: 'tbutton' },
+	      { bsSize: 'lg', onClick: toggle, name: 'serviceButton', style: { margin: "auto", width: "50%",
+	          display: "block" } },
 	      '\u7533\u8BF7\u670D\u52A1'
 	    ),
 	    _react2.default.createElement(
 	      _reactBootstrap.Panel,
-	      { collapsible: true, expanded: topen },
+	      { collapsible: true, expanded: serviceOpen },
 	      _react2.default.createElement(
 	        _reactBootstrap.ListGroup,
 	        { style: { color: 'blue' } },
@@ -59424,7 +59429,7 @@
 	          _react2.default.createElement(
 	            _reactRouter.Link,
 	            { to: '/food' },
-	            '\u9910\u996E\u8BA2\u5355\uFF08\u672A\u5B8C\u6210\uFF09'
+	            '\u9910\u996E\u8BA2\u5355'
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -61982,7 +61987,7 @@
 	        'div',
 	        { className: 'field-line' },
 	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: 'Email*',
+	          floatingLabelText: 'Email*(Email\u5C06\u4F5C\u4E3A\u60A8\u7684\u767B\u9646\u8D26\u53F7\uFF0C\u8BF7\u52A1\u5FC5\u6B63\u786E\u586B\u5199\uFF09',
 	          name: 'email',
 	          errorText: errors.email,
 	          onChange: onChange,
@@ -85378,7 +85383,13 @@
 
 	var _Auth2 = _interopRequireDefault(_Auth);
 
+	var _moment = __webpack_require__(640);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -85393,21 +85404,30 @@
 	   * Class constructor.
 	   */
 	  function FoodPage(props, context) {
+	    var _this$state;
+
 	    _classCallCheck(this, FoodPage);
 
 	    // set the initial component state
 	    var _this = _possibleConstructorReturn(this, (FoodPage.__proto__ || Object.getPrototypeOf(FoodPage)).call(this, props, context));
 
-	    _this.state = {
-	      errors: {},
+	    _this.state = (_this$state = {
+	      errors: '',
 	      email: '',
 	      service: '',
 	      additional: '',
-	      time: ''
-	    };
+	      startOpen: false,
+	      cancelOpen: false,
+	      shoppingOpen: false,
+	      detailedTime: '',
+	      time: (0, _moment2.default)()
+	    }, _defineProperty(_this$state, 'detailedTime', ''), _defineProperty(_this$state, 'shoppingList', []), _defineProperty(_this$state, 'item', ''), _defineProperty(_this$state, 'numberOfItem', ''), _defineProperty(_this$state, 'haveMeal', ''), _defineProperty(_this$state, 'shoppingListString', ''), _this$state);
 
 	    _this.processForm = _this.processForm.bind(_this);
-	    _this.changeUser = _this.changeUser.bind(_this);
+	    _this.changeState = _this.changeState.bind(_this);
+	    _this.changeDate = _this.changeDate.bind(_this);
+	    _this.toggle = _this.toggle.bind(_this);
+	    _this.addItem = _this.addItem.bind(_this);
 	    return _this;
 	  }
 
@@ -85425,17 +85445,26 @@
 
 	      // prevent default action. in this case, action is the form submission event
 	      event.preventDefault();
-
-	      // create a string for an HTTP body message
 	      var email = encodeURIComponent(_Auth2.default.getUser());
-	      var service = encodeURIComponent(this.state.service);
-	      var additional = encodeURIComponent(this.state.additional);
-	      var time = encodeURIComponent(this.state.time);
-	      var formData = 'email=' + email + '&service=' + service + '&additional=' + additional + '&time=' + time;
-
-	      // create an AJAX request
+	      var formData = void 0;
+	      var url = void 0;
+	      if (event.target.name == "startForm") {
+	        // create a string for an HTTP body message
+	        var time = encodeURIComponent(this.state.time);
+	        var detailedTime = encodeURIComponent(this.state.detailedTime);
+	        formData = 'email=' + email + '&detailedTime=' + detailedTime + '&time=' + time;
+	        url = '/api/addMeal';
+	      } else if (event.target.name == "cancelForm") {
+	        formData = 'email=' + email;
+	        url = '/api/cancelMeal';
+	      } else if (event.target.name == "shoppingForm") {
+	        var shoppingList = encodeURIComponent(this.state.shoppingList);
+	        var additional = encodeURIComponent(this.state.additional);
+	        formData = 'email=' + email + '&shoppingList=' + shoppingList + '&additional=' + additional;
+	        url = '/api/shopping';
+	      }
 	      var xhr = new XMLHttpRequest();
-	      xhr.open('post', '/api/medicine');
+	      xhr.open('post', url);
 	      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	      // set the authorization HTTP header
 	      xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
@@ -85443,20 +85472,16 @@
 	      xhr.addEventListener('load', function () {
 	        if (xhr.status === 200) {
 	          // success
-
+	          localStorage.setItem('successMessage', xhr.response.message);
 	          // change the component-container state
 	          _this2.setState({
-	            errors: {}
+	            errors: ''
 	          });
-
 	          // make a redirect
 	          _this2.context.router.replace('/');
 	        } else {
 	          // failure
-
-	          var errors = xhr.response.errors ? xhr.response.errors : {};
-	          errors.summary = xhr.response.message;
-
+	          var errors = xhr.response.message;
 	          _this2.setState({
 	            errors: errors
 	          });
@@ -85464,33 +85489,111 @@
 	      });
 	      xhr.send(formData);
 	    }
-
-	    /**
-	     * Change the user object.
-	     *
-	     * @param {object} event - the JavaScript event object
-	     */
-
 	  }, {
-	    key: 'changeUser',
-	    value: function changeUser(event) {
+	    key: 'changeState',
+	    value: function changeState(event) {
 	      if (event.target.type == "radio") {
 	        this.setState({
-	          service: event.target.value
+	          detailedTime: event.target.value
 	        });
 	      } else {
-	        if (event.target.name == 'additional') {
+	        if (event.target.name == "additional") {
 	          this.setState({
 	            additional: event.target.value
 	          });
-	        } else if (event.target.name == 'time') {
+	        } else if (event.target.name == "item") {
 	          this.setState({
-	            time: event.target.value
+	            item: event.target.value
+	          });
+	        } else if (event.target.name == "numberOfItem") {
+	          this.setState({
+	            numberOfItem: event.target.value
 	          });
 	        }
 	      }
 	    }
+	  }, {
+	    key: 'changeDate',
+	    value: function changeDate(date) {
+	      this.setState({
+	        time: date
+	      });
+	    }
+	  }, {
+	    key: 'toggle',
+	    value: function toggle(event) {
+	      event.preventDefault();
+	      if (event.target.name == "startButton") {
+	        this.setState({
+	          startOpen: !this.state.startOpen
+	        });
+	      } else if (event.target.name == "cancelButton") {
+	        this.setState({
+	          cancelOpen: !this.state.cancelOpen
+	        });
+	      } else if (event.target.name == "shoppingButton") {
+	        this.setState({
+	          shoppingOpen: !this.state.shoppingOpen
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'addItem',
+	    value: function addItem(event) {
+	      if (this.state.numberOfItem == "") {
+	        this.setState({
+	          errors: "请选择食材数量"
+	        });
+	        return;
+	      } else if (this.state.item == "") {
+	        this.setState({
+	          errors: "请选择食材"
+	        });
+	        return;
+	      } else {
+	        var newShoppingList = this.state.shoppingList;
+	        var items = "";
+	        newShoppingList.push({ item: this.state.item, numberOfItem: this.state.numberOfItem });
+	        for (var i = 0; i < newShoppingList.length; i++) {
+	          items = items + newShoppingList[i].item + " " + newShoppingList[i].numberOfItem + " ";
+	        }
+	        this.setState({
+	          shoppingList: newShoppingList,
+	          shoppingListString: items
+	        });
+	        console.log(this.state);
+	      }
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this3 = this;
 
+	      var email = encodeURIComponent(_Auth2.default.getUser());
+	      //find if there is meal entry for this user
+	      var formData = 'email=' + email;
+	      var xhr = new XMLHttpRequest();
+	      xhr.open('post', 'api/checkMeal');
+	      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	      // set the authorization HTTP header
+	      xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+	      xhr.responseType = 'json';
+	      xhr.addEventListener('load', function () {
+	        if (xhr.status === 200) {
+	          if (xhr.response != "") {
+	            _this3.setState({ haveMeal: true });
+	          } else {
+	            _this3.setState({ haveMeal: false });
+	          }
+	        } else {
+	          // failure
+	          _this3.setState({
+	            errors: "fail to retrive meal"
+	          });
+	        }
+	      });
+	      xhr.send(formData);
+	    }
 	    /**
 	     * Render the component.
 	     */
@@ -85500,10 +85603,21 @@
 	    value: function render() {
 	      return _react2.default.createElement(_FoodForm2.default, {
 	        onSubmit: this.processForm,
-	        onChange: this.changeUser,
+	        onChange: this.changeState,
 	        errors: this.state.errors,
 	        additional: this.state.additional,
-	        time: this.state.time
+	        changeDate: this.changeDate,
+	        toggle: this.toggle,
+	        time: this.state.time,
+	        startOpen: this.state.startOpen,
+	        cancelOpen: this.state.cancelOpen,
+	        shoppingOpen: this.state.shoppingOpen,
+	        haveMeal: this.state.haveMeal,
+	        item: this.state.item,
+	        numberOfItem: this.state.numberOfItem,
+	        shoppingList: this.state.shoppingList,
+	        addItem: this.addItem,
+	        shoppingListString: this.state.shoppingListString
 	      });
 	    }
 	  }]);
@@ -85524,7 +85638,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+			value: true
 	});
 
 	var _react = __webpack_require__(1);
@@ -85545,103 +85659,251 @@
 
 	var _reactBootstrap = __webpack_require__(398);
 
+	var _reactDatepicker = __webpack_require__(638);
+
+	var _reactDatepicker2 = _interopRequireDefault(_reactDatepicker);
+
+	__webpack_require__(767);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var MedicineForm = function MedicineForm(_ref) {
-	  var onSubmit = _ref.onSubmit,
-	      onChange = _ref.onChange,
-	      errors = _ref.errors,
-	      additional = _ref.additional,
-	      time = _ref.time;
-	  return _react2.default.createElement(
-	    _Card.Card,
-	    { className: 'container' },
-	    _react2.default.createElement(
-	      'form',
-	      { action: '/', onSubmit: onSubmit },
-	      _react2.default.createElement(
-	        'h2',
-	        { className: 'card-heading' },
-	        '\u8BF7\u9009\u62E9\u60A8\u9700\u8981\u7684\u533B\u7597\u670D\u52A1'
-	      ),
-	      errors.summary && _react2.default.createElement(
-	        'p',
-	        { className: 'error-message' },
-	        errors.summary
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          _reactBootstrap.ToggleButtonGroup,
-	          { type: 'radio', name: 'service' },
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '\u770B\u533B\u751F', onChange: onChange },
-	            '\u770B\u533B\u751F'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '\u4F4F\u9662', onChange: onChange },
-	            '\u4F4F\u9662'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '\u5316\u9A8C', onChange: onChange },
-	            '\u5316\u9A8C'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: '\u51FA\u9662', onChange: onChange },
-	            '\u51FA\u9662'
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.ToggleButton,
-	            { value: 'B\u8D85', onChange: onChange },
-	            'B\u8D85'
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'field-line' },
-	        _react2.default.createElement(_TextField2.default, {
-	          floatingLabelText: '\u5907\u6CE8 (\u6CA1\u6709\u53EF\u4E0D\u586B)',
-	          name: 'additional',
-	          onChange: onChange,
-	          value: additional
-	        })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'button-line' },
-	        _react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: '\u63D0\u4EA4', primary: true })
-	      ),
-	      _react2.default.createElement(
-	        _Card.CardText,
-	        null,
-	        '\u6211\u4EEC\u4F1A\u6839\u636E\u60A8\u7684\u7533\u8BF7\u65F6\u95F4\u5C3D\u5FEB\u5904\u7406 '
-	      )
-	    ),
-	    _react2.default.createElement(
-	      _reactBootstrap.Button,
-	      { bsSize: 'large' },
-	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/medicalrequest' },
-	        '\u67E5\u770B\u5DF2\u9884\u5B9A\u7684\u670D\u52A1'
-	      )
-	    )
-	  );
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var FoodForm = function FoodForm(_ref) {
+			var onSubmit = _ref.onSubmit,
+			    onChange = _ref.onChange,
+			    changeDate = _ref.changeDate,
+			    toggle = _ref.toggle,
+			    errors = _ref.errors,
+			    additional = _ref.additional,
+			    time = _ref.time,
+			    startOpen = _ref.startOpen,
+			    cancelOpen = _ref.cancelOpen,
+			    shoppingOpen = _ref.shoppingOpen,
+			    haveMeal = _ref.haveMeal,
+			    item = _ref.item,
+			    addItem = _ref.addItem,
+			    numberOfItem = _ref.numberOfItem,
+			    shoppingListString = _ref.shoppingListString;
+			return _react2.default.createElement(
+					_Card.Card,
+					{ className: 'container' },
+					errors && _react2.default.createElement(
+							'p',
+							{ className: 'error-message' },
+							errors
+					),
+					_react2.default.createElement(
+							'form',
+							{ action: '/', onSubmit: onSubmit, name: 'startForm' },
+							!haveMeal && _react2.default.createElement(
+									_reactBootstrap.Button,
+									{ bsSize: 'lg', onClick: toggle, name: 'startButton' },
+									'\u7533\u8BF7\u9001\u9910\u670D\u52A1\uFF08\u9001\u9910\u7533\u8BF7\u63D0\u4EA4\u540E\u5C06\u6301\u7EED\u76F4\u5230\u53D6\u6D88\u9001\u9910\u670D\u52A1\uFF09'
+							),
+							_react2.default.createElement(
+									_reactBootstrap.Panel,
+									{ collapsible: true, expanded: startOpen },
+									_react2.default.createElement(
+											_Card.CardText,
+											null,
+											'\u9009\u62E9\u9001\u9910\u5F00\u59CB\u65E5\u671F\uFF08\u8BF7\u81F3\u5C11\u63D0\u524D1\u5929\u9884\u7EA6 \uFF09'
+									),
+									_react2.default.createElement(_reactDatepicker2.default, { selected: time, onChange: changeDate }),
+									_react2.default.createElement(
+											_reactBootstrap.ToggleButtonGroup,
+											{ type: 'radio', name: 'detailedTime' },
+											_react2.default.createElement(
+													_reactBootstrap.ToggleButton,
+													{ value: '8', onChange: onChange },
+													'\u65E9'
+											),
+											_react2.default.createElement(
+													_reactBootstrap.ToggleButton,
+													{ value: '12', onChange: onChange },
+													'\u4E2D'
+											),
+											_react2.default.createElement(
+													_reactBootstrap.ToggleButton,
+													{ value: '18', onChange: onChange },
+													'\u665A'
+											)
+									),
+									_react2.default.createElement(
+											'div',
+											{ className: 'button-line' },
+											_react2.default.createElement(
+													_RaisedButton2.default,
+													{ type: 'submit', label: '\u63D0\u4EA4', primary: true },
+													_react2.default.createElement(_reactRouter.Link, { to: '/' })
+											)
+									)
+							)
+					),
+					_react2.default.createElement(
+							'form',
+							{ action: '/', onSubmit: onSubmit, name: 'cancelForm' },
+							haveMeal && _react2.default.createElement(
+									_reactBootstrap.Button,
+									{ bsSize: 'lg', onClick: toggle, name: 'cancelButton', style: { margin: "auto", width: "50%",
+													display: "block" } },
+									'\u53D6\u6D88\u9001\u9910\u670D\u52A1'
+							),
+							_react2.default.createElement(
+									_reactBootstrap.Panel,
+									{ collapsible: true, expanded: cancelOpen },
+									_react2.default.createElement(
+											_Card.CardText,
+											null,
+											'\u786E\u5B9A\u53D6\u6D88\u8BA2\u9910\u670D\u52A1\uFF1F'
+									),
+									_react2.default.createElement(
+											'div',
+											{ className: 'button-line' },
+											_react2.default.createElement(
+													_RaisedButton2.default,
+													{ type: 'submit', label: '\u786E\u5B9A', primary: true },
+													_react2.default.createElement(_reactRouter.Link, { to: '/' })
+											)
+									)
+							)
+					),
+					_react2.default.createElement(
+							'form',
+							{ action: '/', onSubmit: onSubmit, name: 'shoppingForm' },
+							_react2.default.createElement(
+									_reactBootstrap.Button,
+									{ bsSize: 'lg', onClick: toggle, name: 'shoppingButton', style: { margin: "auto", width: "50%",
+													display: "block" } },
+									'\u8D2D\u4E70\u98DF\u6750'
+							),
+							_react2.default.createElement(
+									_reactBootstrap.Panel,
+									{ collapsible: true, expanded: shoppingOpen },
+									_react2.default.createElement(
+											_Card.CardText,
+											null,
+											'\u516C\u53F8\u6BCF\u54685\u5C06\u8FDB\u884C\u4E00\u6B21\u91C7\u8D2D\uFF0C\u4F1A\u5C06\u60A8\u8FD9\u5468\u7533\u8BF7\u7684\u8D2D\u4E70\u7684\u98DF\u6750\u5728\u9001\u9910\u7684\u540C\u65F6\u9001\u81F3\u60A8\u7684\u5E9C\u4E0A'
+									),
+									_react2.default.createElement(
+											_reactBootstrap.FormGroup,
+											{ controlId: 'formControlsSelect' },
+											_react2.default.createElement(
+													_reactBootstrap.ControlLabel,
+													null,
+													'\u8BF7\u9009\u62E9\u60A8\u60F3\u8D2D\u4E70\u7684\u98DF\u6750'
+											),
+											_react2.default.createElement(
+													_reactBootstrap.FormControl,
+													{ componentClass: 'select', placeholder: 'select', name: 'item', onChange: onChange, style: { margin: "auto", width: "50%",
+																	display: "block" } },
+													_react2.default.createElement('option', null),
+													_react2.default.createElement(
+															'option',
+															null,
+															'\u756A\u8304'
+													),
+													_react2.default.createElement(
+															'option',
+															null,
+															'\u571F\u8C46'
+													)
+											)
+									),
+									_react2.default.createElement(
+											_Card.CardText,
+											null,
+											'\u5982\u679C\u4E0A\u9762\u6CA1\u6709\u60A8\u9700\u8981\u7684\u98DF\u6750\uFF0C\u8BF7\u5728\u4E0B\u9762\u7684\u6846\u4E2D\u586B\u5199'
+									),
+									_react2.default.createElement(
+											'div',
+											{ className: 'field-line' },
+											_react2.default.createElement(_TextField2.default, {
+													floatingLabelText: '\u98DF\u6750',
+													name: 'item',
+													onChange: onChange,
+													value: item
+											})
+									),
+									_react2.default.createElement(
+											_reactBootstrap.FormGroup,
+											{ controlId: 'formControlsSelect' },
+											_react2.default.createElement(
+													_reactBootstrap.ControlLabel,
+													null,
+													'\u8BF7\u9009\u62E9\u60A8\u60F3\u8D2D\u4E70\u98DF\u6750\u7684\u6570\u91CF'
+											),
+											_react2.default.createElement(
+													_reactBootstrap.FormControl,
+													_defineProperty({ componentClass: 'select', placeholder: 'select', name: 'numberOfItem', onChange: onChange, style: { width: 30 } }, 'style', { margin: "auto", width: "50%",
+															display: "block" }),
+													_react2.default.createElement('option', null),
+													_react2.default.createElement(
+															'option',
+															null,
+															'1'
+													),
+													_react2.default.createElement(
+															'option',
+															null,
+															'2'
+													),
+													_react2.default.createElement(
+															'option',
+															null,
+															'3'
+													)
+											)
+									),
+									_react2.default.createElement(
+											_reactBootstrap.Button,
+											{ bsSize: 'lg', onClick: addItem, name: 'addItem' },
+											'\u5C06\u98DF\u6750\u52A0\u5165\u60A8\u7684\u8D2D\u7269\u6E05\u5355'
+									),
+									_react2.default.createElement(
+											'div',
+											{ className: 'field-line' },
+											_react2.default.createElement(_TextField2.default, {
+													floatingLabelText: '\u8D2D\u7269\u6E05\u5355',
+													value: shoppingListString
+											})
+									),
+									_react2.default.createElement(
+											'div',
+											{ className: 'field-line' },
+											_react2.default.createElement(_TextField2.default, {
+													floatingLabelText: '\u7279\u6B8A\u8981\u6C42',
+													name: 'additional',
+													onChange: onChange,
+													value: additional
+											})
+									),
+									_react2.default.createElement(
+											_Card.CardText,
+											null,
+											'\u8BF7\u786E\u8BA4\u9009\u53D6\u6240\u9700\u98DF\u6750\u540E\u518D\u63D0\u4EA4'
+									),
+									_react2.default.createElement(
+											'div',
+											{ className: 'button-line' },
+											_react2.default.createElement(_RaisedButton2.default, { type: 'submit', label: '\u63D0\u4EA4', primary: true })
+									)
+							)
+					),
+					_react2.default.createElement(
+							'h4',
+							null,
+							'\u6025\u4E8B\u8BF7\u6253\u7535\u8BDD XXX-XXXX-XXXX \u5FAE\u4FE1\u6709\u65F6\u65E0\u6CD5\u53CA\u65F6\u56DE\u590D '
+					)
+			);
 	};
 
-	MedicineForm.propTypes = {
-	  onSubmit: _react.PropTypes.func.isRequired,
-	  onChange: _react.PropTypes.func.isRequired,
-	  errors: _react.PropTypes.object.isRequired
+	FoodForm.propTypes = {
+			onSubmit: _react.PropTypes.func.isRequired,
+			onChange: _react.PropTypes.func.isRequired
 	};
 
-	exports.default = MedicineForm;
+	exports.default = FoodForm;
 
 /***/ }),
 /* 774 */
@@ -86151,7 +86413,8 @@
 	      ),
 	      _react2.default.createElement(
 	        _reactBootstrap.FormGroup,
-	        { controlId: 'formControlsSelect' },
+	        { controlId: 'formControlsSelect', style: { margin: "auto", width: "50%",
+	            display: "block" } },
 	        _react2.default.createElement(
 	          _reactBootstrap.ControlLabel,
 	          null,
@@ -86219,7 +86482,8 @@
 	      }),
 	      _react2.default.createElement(
 	        _reactBootstrap.FormGroup,
-	        { controlId: 'formControlsSelect' },
+	        { controlId: 'formControlsSelect', style: { margin: "auto", width: "50%",
+	            display: "block" } },
 	        _react2.default.createElement(
 	          _reactBootstrap.ControlLabel,
 	          null,
@@ -86401,7 +86665,6 @@
 	      xhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
 	      xhr.responseType = 'json';
 	      xhr.addEventListener('load', function () {
-	        console.log(xhr);
 	        if (xhr.status === 200) {
 	          // success
 	          localStorage.setItem('successMessage', xhr.response.message);
@@ -86648,6 +86911,10 @@
 
 	var _NurseView2 = _interopRequireDefault(_NurseView);
 
+	var _ShoppingView = __webpack_require__(811);
+
+	var _ShoppingView2 = _interopRequireDefault(_ShoppingView);
+
 	var _reactBootstrap = __webpack_require__(398);
 
 	var _Auth = __webpack_require__(397);
@@ -86675,10 +86942,12 @@
 				hdata: [],
 				tdata: [],
 				ndata: [],
+				sdata: [],
 				mopen: false,
 				hopen: false,
 				topen: false,
-				nopen: false
+				nopen: false,
+				sopen: false
 			};
 			return _this;
 		}
@@ -86753,19 +87022,37 @@
 						});
 					}
 				});
+
+				//get shoppingrequest
+				var sxhr = new XMLHttpRequest();
+				sxhr.open('post', '/api/shoppingrequest');
+				sxhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				// set the authorization HTTP header
+				sxhr.setRequestHeader('Authorization', 'bearer ' + _Auth2.default.getToken());
+				sxhr.responseType = 'json';
+				sxhr.send(formData);
+				sxhr.addEventListener('load', function () {
+					console.log(sxhr);
+					if (sxhr.status === 200) {
+						_this2.setState({
+							sdata: sxhr.response
+						});
+					}
+				});
 			}
 		}, {
 			key: 'render',
 			value: function render() {
 				var _this3 = this;
 
+				var styles = { margin: "auto", width: "50%",
+					display: "block" };
 				return _react2.default.createElement(
 					'div',
 					null,
-					_react2.default.createElement(
+					this.state.mdata.length && _react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', style: { margin: "auto",
-								display: "block" }, onClick: function onClick() {
+						{ bsSize: 'lg', style: styles, onClick: function onClick() {
 								return _this3.setState({ mopen: !_this3.state.mopen });
 							} },
 						'\u533B\u7597\u63A5\u9001'
@@ -86777,10 +87064,23 @@
 							return _react2.default.createElement(_MedicineView2.default, _extends({ key: Data._id }, Data));
 						})
 					),
-					_react2.default.createElement(
+					this.state.sdata.length && _react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', style: { margin: "auto",
-								display: "block" }, onClick: function onClick() {
+						{ bsSize: 'lg', style: styles, onClick: function onClick() {
+								return _this3.setState({ sopen: !_this3.state.sopen });
+							} },
+						'\u8D2D\u4E70\u98DF\u6750'
+					),
+					_react2.default.createElement(
+						_reactBootstrap.Panel,
+						{ collapsible: true, expanded: this.state.sopen },
+						this.state.sdata.length && this.state.sdata.map(function (Data) {
+							return _react2.default.createElement(_ShoppingView2.default, _extends({ key: Data._id }, Data));
+						})
+					),
+					this.state.hdata.length && _react2.default.createElement(
+						_reactBootstrap.Button,
+						{ bsSize: 'lg', style: styles, onClick: function onClick() {
 								return _this3.setState({ hopen: !_this3.state.hopen });
 							} },
 						'\u4F4F\u623F\u7EF4\u4FEE'
@@ -86792,10 +87092,9 @@
 							return _react2.default.createElement(_HouseView2.default, _extends({ key: Data._id }, Data));
 						})
 					),
-					_react2.default.createElement(
+					this.state.tdata.length && _react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', style: { margin: "auto",
-								display: "block" }, onClick: function onClick() {
+						{ bsSize: 'lg', style: styles, onClick: function onClick() {
 								return _this3.setState({ topen: !_this3.state.topen });
 							} },
 						'\u51FA\u884C\u63A5\u9001'
@@ -86807,10 +87106,9 @@
 							return _react2.default.createElement(_TourView2.default, _extends({ key: Data._id }, Data));
 						})
 					),
-					_react2.default.createElement(
+					this.state.ndata.length && _react2.default.createElement(
 						_reactBootstrap.Button,
-						{ bsSize: 'lg', style: { margin: "auto",
-								display: "block" }, onClick: function onClick() {
+						{ bsSize: 'lg', style: styles, onClick: function onClick() {
 								return _this3.setState({ nopen: !_this3.state.nopen });
 							} },
 						'\u5E2E\u627E\u6708\u5AC2'
@@ -86889,7 +87187,7 @@
 	        _react2.default.createElement(
 	          _reactBootstrap.ListGroupItem,
 	          null,
-	          '\u5907\u6CE8   : ',
+	          '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42   : ',
 	          this.props.additional
 	        ),
 	        _react2.default.createElement(
@@ -86965,7 +87263,7 @@
 	        _react2.default.createElement(
 	          _reactBootstrap.ListGroupItem,
 	          null,
-	          '\u5907\u6CE8   : ',
+	          '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42   : ',
 	          this.props.additional
 	        ),
 	        _react2.default.createElement(
@@ -87059,7 +87357,7 @@
 	        _react2.default.createElement(
 	          _reactBootstrap.ListGroupItem,
 	          null,
-	          '\u5907\u6CE8   : ',
+	          '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42   : ',
 	          this.props.additional
 	        )
 	      );
@@ -87129,7 +87427,7 @@
 	        _react2.default.createElement(
 	          _reactBootstrap.ListGroupItem,
 	          null,
-	          '\u5907\u6CE8   : ',
+	          '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42   : ',
 	          this.props.additional
 	        ),
 	        _react2.default.createElement(
@@ -87146,6 +87444,115 @@
 	}(_react2.default.Component);
 
 	exports.default = NurseView;
+
+/***/ }),
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(338);
+
+	var _reactBootstrap = __webpack_require__(398);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var shoppingView = function (_React$Component) {
+	  _inherits(shoppingView, _React$Component);
+
+	  function shoppingView() {
+	    _classCallCheck(this, shoppingView);
+
+	    return _possibleConstructorReturn(this, (shoppingView.__proto__ || Object.getPrototypeOf(shoppingView)).apply(this, arguments));
+	  }
+
+	  _createClass(shoppingView, [{
+	    key: 'render',
+	    value: function render() {
+	      var items = "";
+	      var lists = this.props.shoppingList;
+	      for (var i = 0; i < lists.length; i++) {
+	        items = items + lists[i].item + " " + lists[i].numberOfItem + " ";
+	      }
+	      console.log(lists);
+	      console.log(items);
+	      return _react2.default.createElement(
+	        _reactBootstrap.ListGroup,
+	        null,
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u9879\u76EE   : ',
+	          this.props.type
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u8D2D\u4E70\u98DF\u6750   : ',
+	          items
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u5176\u4ED6\u670D\u52A1\u6216\u7279\u6B8A\u8981\u6C42   : ',
+	          this.props.additional
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.ListGroupItem,
+	          null,
+	          '\u8BA2\u5355\u63D0\u4EA4\u65F6\u95F4  : ',
+	          this.props.time
+	        )
+	      );
+	    }
+	  }]);
+
+	  return shoppingView;
+	}(_react2.default.Component);
+
+	exports.default = shoppingView;
 
 /***/ })
 /******/ ]);

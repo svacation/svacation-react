@@ -68,7 +68,11 @@ const routes = {
     {
       path: '/nurse',
       component: NursePage
-    }
+    },
+    {
+      path: '/food',
+      component: FoodPage
+    }  
   ]
 };
 

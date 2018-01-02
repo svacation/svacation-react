@@ -3,20 +3,26 @@ import { Link } from 'react-router';
 import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup} from 'react-bootstrap';
+import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup,Panel,FormGroup,ControlLabel,FormControl } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const FoodForm = ({
   onSubmit,
   onChange,
-  changeDate,
+	changeDate,
+	toggle,
   errors,
   additional,
   time,
   startOpen,
-  cancelOpen,
+	cancelOpen,
+	shoppingOpen,
   haveMeal,
-  item,
-  shoppingList
+	item,
+	addItem,
+	numberOfItem,
+	shoppingListString
 }) => (
   <Card className="container">
   {errors && <p className="error-message">{errors}</p>}
@@ -38,26 +44,29 @@ const FoodForm = ({
         </Panel>
     </form>
     <form action="/" onSubmit={onSubmit} name="cancelForm">
-      {haveMeal&&<Button bsSize="lg" onClick={toggle} name="cancelButton">
+      {haveMeal&&<Button bsSize="lg" onClick={toggle} name="cancelButton" style = {{margin:"auto",width:"50%",
+			display:"block"}}>
           取消送餐服务
         </Button>}
         <Panel collapsible expanded={cancelOpen}>
 			<CardText>确定取消订餐服务？</CardText>
 	        <div className="button-line">
-	        	<RaisedButton type="submit" label="提交" primary><Link to={'/'}/></RaisedButton>
+	        	<RaisedButton type="submit" label="确定" primary><Link to={'/'}/></RaisedButton>
 	      	</div>
         </Panel>
       </form>
 
       <form action="/" onSubmit={onSubmit} name="shoppingForm">
-      	<Button bsSize="lg" onClick={toggle} name="shoppingButton">
+      	<Button bsSize="lg" onClick={toggle} name="shoppingButton" style = {{margin:"auto",width:"50%",
+			display:"block"}}>
           购买食材
         </Button>
         <Panel collapsible expanded={shoppingOpen}>
-	      <CardText>公司每周X将进行一次采购，会将您这周申请的购买的食材在送餐的同时送至您的府上</CardText>
+	      <CardText>公司每周5将进行一次采购，会将您这周申请的购买的食材在送餐的同时送至您的府上</CardText>
       	  <FormGroup controlId="formControlsSelect" >
 			  <ControlLabel>请选择您想购买的食材</ControlLabel>
-		      <FormControl componentClass="select" placeholder="select" name = "item" onChange={onChange}>
+		      <FormControl componentClass="select" placeholder="select" name = "item" onChange={onChange} style = {{margin:"auto",width:"50%",
+			display:"block"}}>
 		      <option></option>
 		        <option>番茄</option>
 		        <option>土豆</option>
@@ -66,7 +75,7 @@ const FoodForm = ({
 		  <CardText>如果上面没有您需要的食材，请在下面的框中填写</CardText>
 		  <div className="field-line">
 		        <TextField
-		          floatingLabelText="其他食材"
+		          floatingLabelText="食材"
 		          name="item"
 		          onChange={onChange}
 		          value={item}
@@ -74,21 +83,21 @@ const FoodForm = ({
 	      </div>
 	      <FormGroup controlId="formControlsSelect" >
 			  <ControlLabel>请选择您想购买食材的数量</ControlLabel>
-		      <FormControl componentClass="select" placeholder="select" name = "numberOfItem" onChange={onChange} style={{width:30}} >
+		      <FormControl componentClass="select" placeholder="select" name = "numberOfItem" onChange={onChange} style={{width:30}} style = {{margin:"auto",width:"50%",
+			display:"block"}}>
+					<option></option>
 		      <option>1</option>
 		        <option>2</option>
 		        <option>3</option>
 		      </FormControl>
 		  </FormGroup>
-	      <Button bsSize="lg" onClick={additem} name="additem">
+	      <Button bsSize="lg" onClick={addItem} name="addItem">
 	          将食材加入您的购物清单
 	      </Button>
 	      <div className="field-line">
 	        <TextField
 	          floatingLabelText="购物清单"
-	          name="additional"
-	          onChange={onChange}
-	          value={additional}
+						value={shoppingListString}
 	        />
 	      </div>
 	      <div className="field-line">

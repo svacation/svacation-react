@@ -50,7 +50,6 @@ class NursePage extends React.Component {
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
-      console.log(xhr);
       if (xhr.status === 200) {
         // success
         localStorage.setItem('successMessage', xhr.response.message);

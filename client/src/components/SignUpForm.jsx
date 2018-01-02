@@ -40,7 +40,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
-          floatingLabelText="Email*"
+          floatingLabelText="Email*(Email将作为您的登陆账号，请务必正确填写）"
           name="email"
           errorText={errors.email}
           onChange={onChange}

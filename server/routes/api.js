@@ -4,6 +4,8 @@ const MedicalRequest = require('../models/medicalrequest.js');
 const HouseRequest = require('../models/houserequest.js');
 const TourRequest = require('../models/tourrequest.js');
 const NurseRequest = require('../models/nurserequest.js');
+const ShoppingRequest = require('../models/shoppingrequest.js');
+const Meal = require('../models/meal.js');
 const validator = require('validator');
 const router = new express.Router();
 
@@ -162,6 +164,86 @@ const newNurseRequest = new NurseRequest(Data);
 
 router.post('/nurserequest',(req, res) =>{
   NurseRequest.find({ email: req.body.email }, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+ })
+
+ router.post('/checkMeal', (req, res) => {
+  Meal.find({ email: req.body.email }, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+ })
+
+ router.post('/addMeal', (req, res) => {
+  if (req.body.detailedTime=="") {
+    return res.status(400).json({
+      success: false,
+      message: "请选择送餐开始时间段"
+    });
+  }
+  if (!validExpectedDate(req.body.time.trim())) {
+    return res.status(400).json({
+      success: false,
+      message: "请至少提前1天预约"
+    });
+  }
+  var expectedDate = req.body.time.trim();
+  expectedDate = new Date(expectedDate);
+  expectedDate.setHours(req.body.detailedTime.trim());
+  const Data = {
+    type:'送餐',
+    email:req.body.email.trim(),
+    time:expectedDate
+  };
+const newMeal = new Meal(Data);
+  newMeal.save((err) => {
+    if (err) res.send(err);
+    return res.json({
+      success: true,
+      message: "送餐项目预约已提交！"
+    });
+  });
+});
+
+router.post('/cancelMeal', (req, res) => {
+  Meal.remove({ email: req.body.email }, (err) => {
+    if (err) return res.json(err);
+    return res.json({
+      success: true,
+      message: "送餐项目已取消！"
+    });
+  });
+ })
+
+ router.post('/shopping', (req, res) => {
+  if (req.body.shoppingList==[]) {
+    return res.status(400).json({
+      success: false,
+      message: "请至少添加一项物品到购物清单"
+    });
+  }
+  const currentDate = new Date(Date.now());
+  const Data = {
+    type:'买食材',
+    email:req.body.email.trim(),
+    shoppingList:req.body.shoppingList.trim(),
+    time:currentDate,
+    additional:req.body.additional.trim()
+  };
+const newShoppingRequest = new ShoppingRequest(Data);
+  newShoppingRequest.save((err) => {
+    if (err) res.send(err);
+    return res.json({
+      success: true,
+      message: "买食材申请已提交！（周5采购后会送至您府上）"
+    });
+  });
+});
+
+router.post('/shoppingrequest',(req, res) =>{
+  ShoppingRequest.find({ email: req.body.email }, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
   });
