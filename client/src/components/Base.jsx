@@ -5,7 +5,7 @@ import {ListGroup,ListGroupItem,Button,Card} from 'react-bootstrap';
 
 
 const Base = ({ children }) => (
-  <div  style = {{"fontSize": 30}}>
+  <div  >
     <div className="top-bar">
       <div className="top-bar-left">
         <IndexLink to="/">领事旅游</IndexLink>

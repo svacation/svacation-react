@@ -18,22 +18,22 @@ class FoodPage extends React.Component {
       email: '',
       service: '',
       additional: '',
-      startOpen : false,
+      startOpen: false,
       cancelOpen: false,
       shoppingOpen: false,
-      detailedTime:'',
-      time:moment(),
-      detailedTime:'',
-      shoppingList:[],
-      item:'',
-      numberOfItem:'',
-      haveMeal:'',
-      shoppingListString:''
+      detailedTime: '',
+      time: moment(),
+      detailedTime: '',
+      shoppingList: [],
+      item: '',
+      numberOfItem: '',
+      haveMeal: '',
+      shoppingListString: ''
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeState = this.changeState.bind(this);
-    this.changeDate = this .changeDate.bind(this);
+    this.changeDate = this.changeDate.bind(this);
     this.toggle = this.toggle.bind(this);
     this.addItem = this.addItem.bind(this);
   }
@@ -49,7 +49,7 @@ class FoodPage extends React.Component {
     const email = encodeURIComponent(Auth.getUser());
     let formData;
     let url;
-    if (event.target.name == "startForm"){
+    if (event.target.name == "startForm") {
       // create a string for an HTTP body message
       const time = encodeURIComponent(this.state.time);
       const detailedTime = encodeURIComponent(this.state.detailedTime);
@@ -66,7 +66,7 @@ class FoodPage extends React.Component {
     }
     const xhr = new XMLHttpRequest();
     xhr.open('post', url);
-     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     // set the authorization HTTP header
     xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
     xhr.responseType = 'json';
@@ -94,24 +94,24 @@ class FoodPage extends React.Component {
   changeState(event) {
     if (event.target.type == "radio") {
       this.setState({
-        detailedTime : event.target.value
+        detailedTime: event.target.value
       });
-    } else {  
-        if(event.target.name == "additional"){   
-          this.setState({
-            additional : event.target.value
-          });
-        } else if(event.target.name == "item"){   
-          this.setState({
-            item : event.target.value
-          });
-        } else if(event.target.name == "numberOfItem"){   
-          this.setState({
-            numberOfItem : event.target.value
-          });
-        }
-     }
-}
+    } else {
+      if (event.target.name == "additional") {
+        this.setState({
+          additional: event.target.value
+        });
+      } else if (event.target.name == "item") {
+        this.setState({
+          item: event.target.value
+        });
+      } else if (event.target.name == "numberOfItem") {
+        this.setState({
+          numberOfItem: event.target.value
+        });
+      }
+    }
+  }
   changeDate(date) {
     this.setState({
       time: date
@@ -150,13 +150,13 @@ class FoodPage extends React.Component {
     } else {
       let newShoppingList = this.state.shoppingList;
       let items = "";
-      newShoppingList.push({item:this.state.item,numberOfItem:this.state.numberOfItem});
-      for(var i = 0; i < newShoppingList.length; i++) {
+      newShoppingList.push({ item: this.state.item, numberOfItem: this.state.numberOfItem });
+      for (var i = 0; i < newShoppingList.length; i++) {
         items = items + newShoppingList[i].item + " " + newShoppingList[i].numberOfItem + " ";
       }
       this.setState({
-        shoppingList : newShoppingList,
-        shoppingListString : items
+        shoppingList: newShoppingList,
+        shoppingListString: items
       });
       console.log(this.state);
     }
@@ -167,26 +167,26 @@ class FoodPage extends React.Component {
     //find if there is meal entry for this user
     const formData = `email=${email}`;
     const xhr = new XMLHttpRequest();
-      xhr.open('post', 'api/checkMeal');
-       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      // set the authorization HTTP header
-      xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
-      xhr.responseType = 'json';
-      xhr.addEventListener('load', () => {
-        if (xhr.status === 200) {
-          if (xhr.response != "") {
-            this.setState({haveMeal: true});
-          } else {
-            this.setState({haveMeal: false});
-          }
+    xhr.open('post', 'api/checkMeal');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // set the authorization HTTP header
+    xhr.setRequestHeader('Authorization', `bearer ${Auth.getToken()}`);
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        if (xhr.response != "") {
+          this.setState({ haveMeal: true });
         } else {
-          // failure
-          this.setState({
-            errors : "fail to retrive meal"
-          });
+          this.setState({ haveMeal: false });
         }
-      });
-      xhr.send(formData)
+      } else {
+        // failure
+        this.setState({
+          errors: "fail to retrive meal"
+        });
+      }
+    });
+    xhr.send(formData)
   }
   /**
    * Render the component.
@@ -199,14 +199,14 @@ class FoodPage extends React.Component {
         errors={this.state.errors}
         additional={this.state.additional}
         changeDate={this.changeDate}
-        toggle = {this.toggle}
-        time = {this.state.time}
-        startOpen = {this.state.startOpen}
-        cancelOpen = {this.state.cancelOpen}
-        shoppingOpen = {this.state.shoppingOpen}
-        haveMeal = {this.state.haveMeal}
-        item = {this.state.item}
-        numberOfItem = {this.state.numberOfItem}
+        toggle={this.toggle}
+        time={this.state.time}
+        startOpen={this.state.startOpen}
+        cancelOpen={this.state.cancelOpen}
+        shoppingOpen={this.state.shoppingOpen}
+        haveMeal={this.state.haveMeal}
+        item={this.state.item}
+        numberOfItem={this.state.numberOfItem}
         shoppingList={this.state.shoppingList}
         addItem={this.addItem}
         shoppingListString={this.state.shoppingListString}

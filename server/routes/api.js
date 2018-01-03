@@ -244,7 +244,7 @@ const newShoppingRequest = new ShoppingRequest(Data);
 
 router.post('/shoppingrequest',(req, res) =>{
   ShoppingRequest.find({ email: req.body.email }, (err, data) => {
-    if (err) return res.json(err);
+    if (err) return res.json(err);  
     return res.json(data);
   });
  })
