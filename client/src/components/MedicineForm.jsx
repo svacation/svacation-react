@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import {Button, ButtonToolbar,ToggleButton,ToggleButtonGroup} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Timepicker from './Timepicker.jsx';
 
 const MedicineForm = ({
   onSubmit,
@@ -31,13 +32,9 @@ const MedicineForm = ({
           </ToggleButtonGroup>
       </div>
       <CardText>选择服务时间（请至少提前一天预约 ）</CardText>
-      <DatePicker 
-      selected={time} 
-      onChange={changeDate} 
-      showTimeSelect
-      timeIntervals={60}
-      dateFormat="LLL"
-      />
+      <Card  style={{ width: 300, margin: "auto" }}>
+        <Timepicker />
+      </Card>
 
       <div className="field-line">
         <TextField

@@ -26,10 +26,16 @@ module.exports = {
       test: /(\.css)$/,
       include: path.join(__dirname, 'node_modules/react-datepicker/dist/'),
       loaders: ['style', 'css?sourceMap']
+    },
+    {
+      test: /(\.css)$/,
+      include: path.join(__dirname, 'node_modules/antd-mobile/dist/'),
+      loaders: ['style', 'css?sourceMap']
     }
   ],
   },
 
   // start Webpack in a watch mode, so Webpack will rebuild the bundle on changes
   watch: true
+    
 };

@@ -8,7 +8,7 @@
     "bundle": "webpack"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "antd-mobile": "^2.1.3",
     "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",
     "css-loader": "^0.28.7",
